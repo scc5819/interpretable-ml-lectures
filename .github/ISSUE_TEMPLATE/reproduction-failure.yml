@@ -1,0 +1,55 @@
+name: Reproduction failure
+description: A committed number doesn't reproduce on the pinned environment.
+labels: ["reproduction"]
+body:
+  - type: input
+    id: module
+    attributes:
+      label: Module
+      placeholder: "14-lime"
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Notebook and cell/section
+      placeholder: "notebooks/lime_internals.ipynb, §10b"
+    validations:
+      required: true
+  - type: input
+    id: expected
+    attributes:
+      label: Expected value (as committed)
+    validations:
+      required: true
+  - type: input
+    id: observed
+    attributes:
+      label: Observed value
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: OS and `python --version`
+      placeholder: "macOS 15, Python 3.14.6"
+    validations:
+      required: true
+  - type: textarea
+    id: versions
+    attributes:
+      label: Installed versions
+      description: Output of `pip freeze | grep -E 'scikit-learn|lime|numpy|scipy|matplotlib'`
+      render: text
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Where did it run?
+      options:
+        - Local (pinned requirements.txt)
+        - Local (other versions)
+        - Google Colab
+    validations:
+      required: true

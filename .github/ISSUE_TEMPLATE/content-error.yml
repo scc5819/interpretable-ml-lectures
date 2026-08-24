@@ -1,0 +1,31 @@
+name: Content error
+description: A claim, quote, citation or link looks wrong.
+labels: ["content"]
+body:
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: File plus line, section or figure.
+      placeholder: "modules/14-lime/README.md, second finding"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What's wrong
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: What measurement or source shows this
+      description: The evidence bar applies at the door — a notebook cell, a quote with a section pointer, or a link. "It seems off" is a fine start, but say what made it seem off.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed correction (optional)
+    validations:
+      required: false

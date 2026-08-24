@@ -1,0 +1,49 @@
+name: New module proposal
+description: Claim a chapter from the module table and agree scope before writing.
+labels: ["new-module"]
+body:
+  - type: input
+    id: chapter
+    attributes:
+      label: Molnar chapter
+      description: Module numbers are chapter numbers — see the table in the README.
+      placeholder: "15 — Counterfactual Explanations"
+    validations:
+      required: true
+  - type: textarea
+    id: measurements
+    attributes:
+      label: What the module would measure
+      description: Not what it would cover — what it would measure. Which claims about the method get a number, and how.
+    validations:
+      required: true
+  - type: textarea
+    id: connections
+    attributes:
+      label: Which existing claims it would test or extend
+      description: E.g. does the method's neighborhood/sampling story interact with what the LIME module measured?
+    validations:
+      required: false
+  - type: dropdown
+    id: shared-case
+    attributes:
+      label: Does it reuse the shared case?
+      description: Breast Cancer Wisconsin, RandomForest(n_estimators=300, min_samples_leaf=3, random_state=42), same split, patient #67.
+      options:
+        - "Yes"
+        - "No — explained below"
+    validations:
+      required: true
+  - type: textarea
+    id: case-deviation
+    attributes:
+      label: If not, what case and why
+    validations:
+      required: false
+  - type: input
+    id: author
+    attributes:
+      label: Who intends to write it
+      placeholder: "@your-handle (e.g. the student who presented this chapter)"
+    validations:
+      required: true

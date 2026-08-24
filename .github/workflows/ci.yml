@@ -1,0 +1,185 @@
+# Three checks, nothing more:
+#   links        — relative/intra-repo links on every PR (offline, deterministic);
+#                  the full external check runs weekly and files an issue instead
+#                  of failing anyone's PR (arXiv/DOI hosts have bad days).
+#   notebooks    — the walkthrough notebooks must run clean, top to bottom, on the
+#                  pinned environment. Output-value comparison is deliberately out
+#                  of scope: BLAS/platform drift alone moves the third decimal
+#                  between a Linux runner and the macOS box that produced the
+#                  committed outputs, and the claim being enforced here is "the
+#                  pinned stack still executes and nothing dirties the tree".
+#                  The heavy *_internals notebooks run weekly, on dispatch, or when
+#                  a PR touches them.
+#   citation     — CITATION.cff stays valid, so the "Cite this repository" button
+#                  keeps working.
+#   latest-stack — weekly, non-blocking canary: the walkthroughs on the newest
+#                  Python and unpinned latest packages. The pinned baseline is
+#                  the reproducibility claim and only moves in deliberate
+#                  upgrade PRs (see CONTRIBUTING); this job is how the repo
+#                  knows when the latest stack breaks or drifts, without
+#                  failing anyone's PR.
+#
+# Timeouts were measured locally (Apple Silicon, macOS, 2026-08-24, pinned
+# stack): lime_walkthrough 18.6 s, lime_internals 119.8 s wall clock. CI values
+# are ~3x that plus generous margin for slower Linux runners and pip install.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1" # weekly full link check + internals run
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  links:
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check relative and intra-repo links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # _template holds intentional <placeholder> links
+          args: --offline --no-progress --include-fragments --exclude-path modules/_template "**/*.md"
+          fail: true
+
+  links-external:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check all links, external included
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --max-retries 2 --accept 200,206,429 --exclude-path modules/_template "**/*.md" CITATION.cff
+          fail: false
+      - name: File or update the tracking issue
+        if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Broken links (weekly check)"
+          content-filepath: ./lychee/out.md
+          labels: content
+
+  changes:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      internals: ${{ steps.filter.outputs.internals }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            internals:
+              - 'modules/*/notebooks/*_internals.ipynb'
+
+  walkthroughs:
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15 # measured 18.6 s/notebook locally; margin for install + runner
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Execute every walkthrough notebook on the pinned stack
+        run: |
+          set -e
+          for nb in modules/*/notebooks/*_walkthrough.ipynb; do
+            echo "::group::$nb"
+            time jupyter nbconvert --to notebook --execute \
+              --ExecutePreprocessor.timeout=1200 \
+              --output-dir "$RUNNER_TEMP/nbci" "$nb"
+            echo "::endgroup::"
+          done
+      - name: Execution must not dirty the tree
+        run: |
+          git status --porcelain
+          test -z "$(git status --porcelain)"
+
+  internals:
+    needs: [changes]
+    if: >-
+      always() && (
+        github.event_name == 'schedule' ||
+        github.event_name == 'workflow_dispatch' ||
+        (github.event_name == 'pull_request' && needs.changes.outputs.internals == 'true')
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 30 # measured 119.8 s locally; margin for install + runner
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Execute every internals notebook on the pinned stack
+        run: |
+          set -e
+          for nb in modules/*/notebooks/*_internals.ipynb; do
+            echo "::group::$nb"
+            time jupyter nbconvert --to notebook --execute \
+              --ExecutePreprocessor.timeout=2400 \
+              --output-dir "$RUNNER_TEMP/nbci" "$nb"
+            echo "::endgroup::"
+          done
+      - name: Execution must not dirty the tree
+        run: |
+          git status --porcelain
+          test -z "$(git status --porcelain)"
+
+  citation:
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dieghernan/cff-validator@v3
+
+  latest-stack:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    continue-on-error: true # canary: informs, never blocks
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x" # newest stable Python
+      - name: Install latest, unpinned
+        run: pip install -U scikit-learn lime numpy scipy matplotlib jupyter
+      - name: Report the stack under test
+        run: |
+          python --version
+          pip list --format=freeze | grep -Ei '^(scikit-learn|lime|numpy|scipy|matplotlib)='
+      - name: Execute every walkthrough notebook on the latest stack
+        run: |
+          set -e
+          for nb in modules/*/notebooks/*_walkthrough.ipynb; do
+            echo "::group::$nb"
+            time jupyter nbconvert --to notebook --execute \
+              --ExecutePreprocessor.timeout=1200 \
+              --output-dir "$RUNNER_TEMP/nbcanary" "$nb"
+            echo "::endgroup::"
+          done

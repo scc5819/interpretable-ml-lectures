@@ -29,8 +29,9 @@ One module per chapter of Molnar's book, from chapter 12 on. A module marked *op
 | 24 — LOFO | Leave-one-feature-out importance | open — contribution welcome |
 | 25 — Surrogate models | Global surrogates | open — contribution welcome |
 | 26 — Prototypes | Prototypes and criticisms | open — contribution welcome |
+| 32 — Evaluation | Evaluating interpretability methods | open — contribution welcome |
 
-Module numbers are Molnar's chapter numbers, so the mapping between a lecture and its chapter never drifts. Chapters 27–31 (neural network interpretation) are welcome too — propose one via the [new-module issue form](https://github.com/scc5819/interpretable-ml-lectures/issues/new/choose); they will need a case of their own, since the shared case below is a tabular model.
+Module numbers are Molnar's chapter numbers, so the mapping between a lecture and its chapter never drifts. Chapters 27–31 (neural network interpretation) are welcome too — propose one via the [new-module issue form](https://github.com/scc5819/interpretable-ml-lectures/issues/new/choose); they will need a case of their own, since the shared case below is a tabular model. Chapters 33–34 are essays rather than methods, so they carry no module slot.
 
 Every module is self-contained: its own notebooks, figures, lecture outline, references, and README. Method-specific citations live in the module that uses them, not here. Modules share one dataset, one model and one patient — the Breast Cancer Wisconsin (Diagnostic) dataset, a RandomForest, and test patient #67 — so the series reads as one continuous case.
 

@@ -2,6 +2,8 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/scc5819/interpretable-ml-lectures/blob/main/modules/14-lime/notebooks/lime_walkthrough.ipynb)
 
+*Module author: [William Bendinelli](https://github.com/wbendinelli) — seminar presented 2026-08-24, SCC5819 (ICMC-USP, 2026).*
+
 A worked case study of Local Interpretable Model-agnostic Explanations (LIME) on a RandomForest trained on scikit-learn's Breast Cancer Wisconsin (Diagnostic) dataset (569 patients, 30 features, benign/malignant).
 
 ![The six steps of LIME](figures/lime_walkthrough_combined.png)

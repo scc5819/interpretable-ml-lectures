@@ -35,9 +35,11 @@ on:
 permissions:
   contents: read
 
+# Cancel superseded runs on PRs only — cancelling main-branch runs leaves a
+# misleading red X on the commit.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   links:

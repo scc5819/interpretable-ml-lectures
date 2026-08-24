@@ -106,9 +106,9 @@ Review checks the [evidence bar](#the-evidence-bar) above, point by point. Revie
 
 ## Maintainers
 
-| Maintainer | Scope |
-|---|---|
-| [@wbendinelli](https://github.com/wbendinelli) | repository, module 14 |
+| Maintainer | Scope | Private contact |
+|---|---|---|
+| [@wbendinelli](https://github.com/wbendinelli) | repository, module 14 | <william.bendinelli@alumni.usp.br> |
 
 Mirrored in [`.github/CODEOWNERS`](.github/CODEOWNERS). Authoring a module makes you the natural maintainer of it; the table grows with the modules.
 

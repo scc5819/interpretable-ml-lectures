@@ -36,7 +36,7 @@ This Code of Conduct applies within all community spaces, and also applies when 
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported **privately** to the community leaders responsible for enforcement: the maintainers listed in [CONTRIBUTING.md](CONTRIBUTING.md#maintainers), by e-mail at the address shown on the maintainer's GitHub profile. A report should never require a public post — for matters within the course itself, the course professor (see the repository README) is an additional private channel. A public issue or thread mention remains available for concerns you are comfortable raising in the open. If the report concerns a maintainer, use GitHub's [Report abuse](https://support.github.com/contact/report-abuse) form instead. All complaints will be reviewed and investigated promptly and fairly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported **privately** to the community leaders responsible for enforcement: the maintainers listed in [CONTRIBUTING.md](CONTRIBUTING.md#maintainers), by e-mail at the address given there (currently <william.bendinelli@alumni.usp.br>). A report should never require a public post — for matters within the course itself, the course professor (see the repository README) is an additional private channel. A public issue or thread mention remains available for concerns you are comfortable raising in the open. If the report concerns a maintainer, use GitHub's [Report abuse](https://support.github.com/contact/report-abuse) form instead. All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the reporter of any incident.
 

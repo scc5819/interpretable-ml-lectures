@@ -75,6 +75,8 @@ modules/NN-slug/
     └── <slug>_internals.ipynb
 ```
 
+When the module lands, run `python3 tools/render_board.py` and commit the README change — the module table is **generated** from [`schedule.toml`](schedule.toml) plus the `modules/` tree, and your row flips to *available* automatically. Edit `schedule.toml` (dates, titles, presenters), never the table itself; a weekly CI check files an issue when the board drifts.
+
 Rules that keep the series reading as one case:
 
 - **Keep the shared case.** Same dataset (Breast Cancer Wisconsin Diagnostic, as shipped with scikit-learn), same model (`RandomForestClassifier(n_estimators=300, min_samples_leaf=3, random_state=42)`), same split, same test patient #67. Deviate only with a measured reason, stated in the README. (Modules on chapters 27–31, neural network interpretation, will necessarily need their own case — say what it is and why.)

@@ -157,6 +157,44 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dieghernan/cff-validator@v3
 
+  # Deliberately NOT run on PRs: the board's presented/awaited statuses are
+  # date-dependent, so a PR check would start failing unrelated PRs the day
+  # after each session. The weekly run files an issue instead.
+  board:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - name: Check the module board against schedule.toml and the calendar
+        id: board
+        run: |
+          if ! python3 tools/render_board.py --check 2> board-diff.txt; then
+            {
+              echo "The README module board no longer matches \`schedule.toml\`, the calendar, and the \`modules/\` tree."
+              echo
+              echo "Fix: run \`python3 tools/render_board.py\` and commit the README change."
+              echo
+              echo '```diff'
+              cat board-diff.txt
+              echo '```'
+            } > board-issue.md
+            echo "stale=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: File or update the tracking issue
+        if: steps.board.outputs.stale == 'true'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Module board is stale"
+          content-filepath: ./board-issue.md
+          labels: content
+
   latest-stack:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest

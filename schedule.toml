@@ -1,0 +1,144 @@
+# Single source of truth for the module/seminar board in README.md.
+# Edit this file (never the README table) and run: python3 tools/render_board.py
+#
+# Chapter numbers and titles follow Molnar's Interpretable Machine Learning.
+# Chapter 33 (Story Time) is omitted: skipped in the course, and an essay.
+# Module existence is inferred from the filesystem (modules/<chapter>-*/),
+# so there is no status field to maintain here.
+# Presenters are display names only — no e-mails, no GitHub handles; a handle
+# field may be added later once people join GitHub.
+
+no_sessions = [2026-09-07, 2026-09-28, 2026-10-12, 2026-11-02]
+
+[[chapters]]
+chapter = 12
+title = "Ceteris Paribus Plots"
+date = 2026-08-17
+presenter = "Ana Julia Gonzalez Tendulini"
+
+[[chapters]]
+chapter = 13
+title = "Individual Conditional Expectation (ICE)"
+date = 2026-08-17
+presenter = "Fabiano Berardo de Sousa"
+
+[[chapters]]
+chapter = 14
+title = "LIME"
+date = 2026-08-24
+presenter = "William Bendinelli"
+
+[[chapters]]
+chapter = 15
+title = "Counterfactual Explanations"
+date = 2026-08-24
+presenter = "Paulo Alberto Garcia Ferreira"
+
+[[chapters]]
+chapter = 16
+title = "Scoped Rules (Anchors)"
+date = 2026-09-14
+presenter = "Bruna Campos Guedes"
+
+[[chapters]]
+chapter = 17
+title = "Shapley Values"
+date = 2026-08-31
+presenter = "Bruno Rafael Florentino"
+
+[[chapters]]
+chapter = 18
+title = "SHAP"
+date = 2026-08-31
+presenter = "Bruno Rafael Florentino"
+
+[[chapters]]
+chapter = 19
+title = "Partial Dependence Plot (PDP)"
+date = 2026-09-14
+presenter = "Rômulo Marques Carvalho"
+
+[[chapters]]
+chapter = 20
+title = "Accumulated Local Effects (ALE)"
+date = 2026-09-21
+presenter = "Ana Julia Gonzalez Tendulini"
+
+[[chapters]]
+chapter = 21
+title = "Feature Interaction"
+date = 2026-09-21
+presenter = "Paulo Alberto Garcia Ferreira"
+
+[[chapters]]
+chapter = 22
+title = "Functional Decomposition"
+date = 2026-10-05
+presenter = "Rômulo Marques Carvalho"
+
+[[chapters]]
+chapter = 23
+title = "Permutation Feature Importance"
+date = 2026-10-05
+presenter = "William Bendinelli"
+
+[[chapters]]
+chapter = 24
+title = "Leave One Feature Out (LOFO) Importance"
+date = 2026-10-19
+presenter = "Bruno Rafael Florentino"
+
+[[chapters]]
+chapter = 25
+title = "Surrogate Models"
+date = 2026-10-19
+presenter = "Fabiano Berardo de Sousa"
+
+[[chapters]]
+chapter = 26
+title = "Prototypes and Criticisms"
+date = 2026-10-26
+presenter = "Bruna Campos Guedes"
+
+[[chapters]]
+chapter = 27
+title = "Learned Features"
+date = 2026-10-26
+presenter = "Ana Julia Gonzalez Tendulini"
+
+[[chapters]]
+chapter = 28
+title = "Saliency Maps"
+date = 2026-11-09
+presenter = "Paulo Alberto Garcia Ferreira"
+
+[[chapters]]
+chapter = 29
+title = "Detecting Concepts"
+date = 2026-11-09
+presenter = "William Bendinelli"
+
+[[chapters]]
+chapter = 30
+title = "Adversarial Examples"
+date = 2026-11-16
+presenter = "Fabiano Berardo de Sousa"
+
+[[chapters]]
+chapter = 31
+title = "Influential Instances"
+date = 2026-11-16
+presenter = "Bruna Campos Guedes"
+
+[[chapters]]
+chapter = 32
+title = "Evaluation of Interpretability Methods"
+date = 2026-11-23
+presenter = "Rômulo Marques Carvalho"
+
+[[chapters]]
+chapter = 34
+title = "The Future of Interpretability"
+date = 2026-11-23
+presenter = "Prof. Dr. André C. P. L. F. de Carvalho"
+no_module = "essay"

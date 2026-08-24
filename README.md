@@ -10,66 +10,44 @@ The repository is maintained by the course community. Corrections, replications 
 
 ## Modules
 
-One module per chapter of Molnar's book, from chapter 12 on. A module marked *open* is unclaimed: if you presented (or want to present) that method, it is yours to write — see [Adding a new module](CONTRIBUTING.md#adding-a-new-module).
+One module per chapter of Molnar's book, from chapter 12 on, written by the course community: each seminar's presenter is the natural author of that chapter's module. That is an invitation, not an obligation — *awaited* describes the state of the material, and the [first-contribution guide](CONTRIBUTING.md#your-first-contribution) is the on-ramp for authors who haven't set foot on GitHub yet. See [Adding a new module](CONTRIBUTING.md#adding-a-new-module) for the template.
 
-| Module | Method | Status |
-|---|---|---|
-| 12 — Ceteris paribus | Changing one feature at a time | open — contribution welcome |
-| 13 — ICE | Individual conditional expectation curves | open — contribution welcome |
-| [**14 — LIME**](modules/14-lime/) | Local Interpretable Model-agnostic Explanations | **available** |
-| 15 — Counterfactuals | Counterfactual explanations | open — contribution welcome |
-| 16 — Anchors | Scoped rules | open — contribution welcome |
-| 17 — Shapley values | Game-theoretic attribution | open — contribution welcome |
-| 18 — SHAP | Shapley additive explanations | open — contribution welcome |
-| 19 — PDP | Partial dependence plots | open — contribution welcome |
-| 20 — ALE | Accumulated local effects | open — contribution welcome |
-| 21 — Feature interaction | Interaction strength (H-statistic) | open — contribution welcome |
-| 22 — Functional decomposition | Decomposing the prediction function | open — contribution welcome |
-| 23 — Permutation importance | Permutation feature importance | open — contribution welcome |
-| 24 — LOFO | Leave-one-feature-out importance | open — contribution welcome |
-| 25 — Surrogate models | Global surrogates | open — contribution welcome |
-| 26 — Prototypes | Prototypes and criticisms | open — contribution welcome |
-| 27 — Learned features | What features a network learns | open — contribution welcome |
-| 28 — Saliency maps | Pixel attribution for network predictions | open — contribution welcome |
-| 29 — Detecting concepts | Concept-based explanations | open — contribution welcome |
-| 30 — Adversarial examples | Inputs crafted to fool the model | open — contribution welcome |
-| 31 — Influential instances | Training points that shape a prediction | open — contribution welcome |
-| 32 — Evaluation | Evaluating interpretability methods | open — contribution welcome |
+<!-- board:begin -->
+<!-- Generated — edit schedule.toml and run:  python3 tools/render_board.py
+     Do not edit this block by hand. -->
+**1 of 21 modules available** · 4 of 22 seminars presented · next session 2026-08-31 (ch. 17, 18).
 
-Module numbers are Molnar's chapter numbers, so the mapping between a lecture and its chapter never drifts. Claim a chapter via the [new-module issue form](https://github.com/scc5819/interpretable-ml-lectures/issues/new/choose). Modules for chapters 27–31 (neural network interpretation) will need a case of their own, since the shared case below is a tabular model — say what it is in the proposal. Chapters 33–34 are essays rather than methods, so they carry no module slot.
+| Ch. | Method | Presenter | Seminar | Module |
+|---|---|---|---|---|
+| 12 | Ceteris Paribus Plots | Ana Julia Gonzalez Tendulini | 2026-08-17 — presented | awaited |
+| 13 | Individual Conditional Expectation (ICE) | Fabiano Berardo de Sousa | 2026-08-17 — presented | awaited |
+| 14 | LIME | William Bendinelli | 2026-08-24 — presented | **[available](modules/14-lime/)** |
+| 15 | Counterfactual Explanations | Paulo Alberto Garcia Ferreira | 2026-08-24 — presented | awaited |
+| 16 | Scoped Rules (Anchors) | Bruna Campos Guedes | 2026-09-14 | scheduled |
+| 17 | Shapley Values | Bruno Rafael Florentino | 2026-08-31 | scheduled |
+| 18 | SHAP | Bruno Rafael Florentino | 2026-08-31 | scheduled |
+| 19 | Partial Dependence Plot (PDP) | Rômulo Marques Carvalho | 2026-09-14 | scheduled |
+| 20 | Accumulated Local Effects (ALE) | Ana Julia Gonzalez Tendulini | 2026-09-21 | scheduled |
+| 21 | Feature Interaction | Paulo Alberto Garcia Ferreira | 2026-09-21 | scheduled |
+| 22 | Functional Decomposition | Rômulo Marques Carvalho | 2026-10-05 | scheduled |
+| 23 | Permutation Feature Importance | William Bendinelli | 2026-10-05 | scheduled |
+| 24 | Leave One Feature Out (LOFO) Importance | Bruno Rafael Florentino | 2026-10-19 | scheduled |
+| 25 | Surrogate Models | Fabiano Berardo de Sousa | 2026-10-19 | scheduled |
+| 26 | Prototypes and Criticisms | Bruna Campos Guedes | 2026-10-26 | scheduled |
+| 27 | Learned Features | Ana Julia Gonzalez Tendulini | 2026-10-26 | scheduled |
+| 28 | Saliency Maps | Paulo Alberto Garcia Ferreira | 2026-11-09 | scheduled |
+| 29 | Detecting Concepts | William Bendinelli | 2026-11-09 | scheduled |
+| 30 | Adversarial Examples | Fabiano Berardo de Sousa | 2026-11-16 | scheduled |
+| 31 | Influential Instances | Bruna Campos Guedes | 2026-11-16 | scheduled |
+| 32 | Evaluation of Interpretability Methods | Rômulo Marques Carvalho | 2026-11-23 | scheduled |
+| 34 | The Future of Interpretability | Prof. Dr. André C. P. L. F. de Carvalho | 2026-11-23 | — |
+
+No sessions on 2026-09-07, 2026-09-28, 2026-10-12, 2026-11-02.
+<!-- board:end -->
+
+Module numbers are Molnar's chapter numbers, so the mapping between a lecture and its chapter never drifts. Claim or discuss a chapter via the [new-module issue form](https://github.com/scc5819/interpretable-ml-lectures/issues/new/choose). Modules for chapters 27–31 (neural network interpretation) will need a case of their own, since the shared case below is a tabular model — say what it is in the proposal. Chapters 33–34 are essays rather than methods: 33 is skipped in the course, and 34 closes it without a module slot. The table above is generated from [`schedule.toml`](schedule.toml) — edit that file, never the table.
 
 Every module is self-contained: its own notebooks, figures, lecture outline, references, and README. Method-specific citations live in the module that uses them, not here. Modules share one dataset, one model and one patient — the Breast Cancer Wisconsin (Diagnostic) dataset, a RandomForest, and test patient #67 — so the series reads as one continuous case.
-
-## Seminar schedule
-
-The 2026 offering, two chapters per session. Each presenter is the natural author of that chapter's module; module status is tracked in the table above.
-
-| Date | Ch. | Method | Presenter |
-|---|---|---|---|
-| 2026-08-17 | 12 | Ceteris Paribus Plots | Ana Julia Gonzalez Tendulini |
-| 2026-08-17 | 13 | Individual Conditional Expectation (ICE) | Fabiano Berardo de Sousa |
-| 2026-08-24 | 14 | LIME | William Bendinelli |
-| 2026-08-24 | 15 | Counterfactual Explanations | Paulo Alberto Garcia Ferreira |
-| 2026-08-31 | 17 | Shapley Values | Bruno Rafael Florentino |
-| 2026-08-31 | 18 | SHAP | Bruno Rafael Florentino |
-| 2026-09-14 | 16 | Scoped Rules (Anchors) | Bruna Campos Guedes |
-| 2026-09-14 | 19 | Partial Dependence Plot (PDP) | Rômulo Marques Carvalho |
-| 2026-09-21 | 20 | Accumulated Local Effects (ALE) | Ana Julia Gonzalez Tendulini |
-| 2026-09-21 | 21 | Feature Interaction | Paulo Alberto Garcia Ferreira |
-| 2026-10-05 | 22 | Functional Decomposition | Rômulo Marques Carvalho |
-| 2026-10-05 | 23 | Permutation Feature Importance | William Bendinelli |
-| 2026-10-19 | 24 | Leave One Feature Out (LOFO) | Bruno Rafael Florentino |
-| 2026-10-19 | 25 | Surrogate Models | Fabiano Berardo de Sousa |
-| 2026-10-26 | 26 | Prototypes and Criticisms | Bruna Campos Guedes |
-| 2026-10-26 | 27 | Learned Features | Ana Julia Gonzalez Tendulini |
-| 2026-11-09 | 28 | Saliency Maps | Paulo Alberto Garcia Ferreira |
-| 2026-11-09 | 29 | Detecting Concepts | William Bendinelli |
-| 2026-11-16 | 30 | Adversarial Examples | Fabiano Berardo de Sousa |
-| 2026-11-16 | 31 | Influential Instances | Bruna Campos Guedes |
-| 2026-11-23 | 32 | Evaluation of Interpretability Methods | Rômulo Marques Carvalho |
-| 2026-11-23 | 34 | The Future of Interpretability | Prof. Dr. André C. P. L. F. de Carvalho |
-
-No sessions on 2026-09-07, 2026-09-28, 2026-10-12 and 2026-11-02.
 
 ## How these materials are built
 

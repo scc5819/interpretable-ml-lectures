@@ -7,8 +7,8 @@ authors:
   - name: "The interpretable-ml-lectures contributors"
 type: software
 date-released: "2026-08-24"
-url: "https://github.com/ORGNAME/REPONAME"
-repository-code: "https://github.com/ORGNAME/REPONAME"
+url: "https://github.com/scc5819/interpretable-ml-lectures"
+repository-code: "https://github.com/scc5819/interpretable-ml-lectures"
 license:
   - MIT
   - CC-BY-SA-4.0

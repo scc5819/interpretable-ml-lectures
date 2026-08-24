@@ -13,7 +13,7 @@ section of the [README](README.md) for where the boundary runs.
 When reusing content, please use this attribution:
 
 > Interpretable ML — Lecture Materials, SCC5819 (ICMC-USP),
-> https://github.com/ORGNAME/REPONAME, CC BY-SA 4.0.
+> https://github.com/scc5819/interpretable-ml-lectures, CC BY-SA 4.0.
 
 Copyright (c) 2026 the interpretable-ml-lectures contributors.
 

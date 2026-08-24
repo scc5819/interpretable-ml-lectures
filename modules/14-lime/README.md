@@ -1,6 +1,6 @@
 # Module 14 — LIME
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ORGNAME/REPONAME/blob/main/modules/14-lime/notebooks/lime_walkthrough.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/scc5819/interpretable-ml-lectures/blob/main/modules/14-lime/notebooks/lime_walkthrough.ipynb)
 
 A worked case study of Local Interpretable Model-agnostic Explanations (LIME) on a RandomForest trained on scikit-learn's Breast Cancer Wisconsin (Diagnostic) dataset (569 patients, 30 features, benign/malignant).
 

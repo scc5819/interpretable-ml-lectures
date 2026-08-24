@@ -60,7 +60,7 @@ Every PR that touches a claim is reviewed against these six rules:
 
 ## Adding a new module
 
-Claim a chapter **before** writing it, via the [new-module issue form](https://github.com/ORGNAME/REPONAME/issues/new/choose) — scope and numbering get agreed there, and the module table gets your name on the row. Module numbers are Molnar's chapter numbers.
+Claim a chapter **before** writing it, via the [new-module issue form](https://github.com/scc5819/interpretable-ml-lectures/issues/new/choose) — scope and numbering get agreed there, and the module table gets your name on the row. Module numbers are Molnar's chapter numbers.
 
 Start from [`modules/_template/`](modules/_template/):
 

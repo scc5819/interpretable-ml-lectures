@@ -4,7 +4,7 @@
 
 # Module NN — <Method>
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ORGNAME/REPONAME/blob/main/modules/NN-slug/notebooks/<slug>_walkthrough.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/scc5819/interpretable-ml-lectures/blob/main/modules/NN-slug/notebooks/<slug>_walkthrough.ipynb)
 
 <!-- One sentence: what this module is, tying into the shared case. Pattern:
      "A worked case study of <Method> on a RandomForest trained on scikit-learn's

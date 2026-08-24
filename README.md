@@ -1,6 +1,6 @@
 # Interpretable ML — Lecture Materials
 
-[![CI](https://github.com/ORGNAME/REPONAME/actions/workflows/ci.yml/badge.svg)](https://github.com/ORGNAME/REPONAME/actions/workflows/ci.yml)
+[![CI](https://github.com/scc5819/interpretable-ml-lectures/actions/workflows/ci.yml/badge.svg)](https://github.com/scc5819/interpretable-ml-lectures/actions/workflows/ci.yml)
 
 Lecture materials on machine learning interpretability for **SCC5819 — Topics in Artificial Intelligence**, a graduate course at the Institute of Mathematics and Computer Sciences, University of São Paulo (ICMC-USP), Brazil, taught by Prof. Dr. André Carlos Ponce de Leon Ferreira de Carvalho. The materials follow the structure and terminology of the course's reference book, Christoph Molnar's [*Interpretable Machine Learning*](https://christophm.github.io/interpretable-ml-book/), covering it one lecture module per chapter from chapter 12 onward.
 
@@ -30,7 +30,7 @@ One module per chapter of Molnar's book, from chapter 12 on. A module marked *op
 | 25 — Surrogate models | Global surrogates | open — contribution welcome |
 | 26 — Prototypes | Prototypes and criticisms | open — contribution welcome |
 
-Module numbers are Molnar's chapter numbers, so the mapping between a lecture and its chapter never drifts. Chapters 27–31 (neural network interpretation) are welcome too — propose one via the [new-module issue form](https://github.com/ORGNAME/REPONAME/issues/new/choose); they will need a case of their own, since the shared case below is a tabular model.
+Module numbers are Molnar's chapter numbers, so the mapping between a lecture and its chapter never drifts. Chapters 27–31 (neural network interpretation) are welcome too — propose one via the [new-module issue form](https://github.com/scc5819/interpretable-ml-lectures/issues/new/choose); they will need a case of their own, since the shared case below is a tabular model.
 
 Every module is self-contained: its own notebooks, figures, lecture outline, references, and README. Method-specific citations live in the module that uses them, not here. Modules share one dataset, one model and one patient — the Breast Cancer Wisconsin (Diagnostic) dataset, a RandomForest, and test patient #67 — so the series reads as one continuous case.
 
@@ -74,7 +74,7 @@ Molnar, C. *Interpretable Machine Learning: A Guide for Making Black Box Models 
 
 ## Acknowledgments
 
-Course SCC5819 — Topics in Artificial Intelligence, ICMC-USP, taught by Prof. Dr. André Carlos Ponce de Leon Ferreira de Carvalho. The LIME module was written by William Bendinelli as the course's seminar material and originated in [wbendinelli/interpretable-ml-lectures](https://github.com/wbendinelli/interpretable-ml-lectures); the structure and terminology follow Christoph Molnar's *Interpretable Machine Learning*. Everyone who has contributed since is in the repository's [contributor graph](https://github.com/ORGNAME/REPONAME/graphs/contributors).
+Course SCC5819 — Topics in Artificial Intelligence, ICMC-USP, taught by Prof. Dr. André Carlos Ponce de Leon Ferreira de Carvalho. The LIME module was written by William Bendinelli as the course's seminar material and originated in [wbendinelli/interpretable-ml-lectures](https://github.com/wbendinelli/interpretable-ml-lectures); the structure and terminology follow Christoph Molnar's *Interpretable Machine Learning*. Everyone who has contributed since is in the repository's [contributor graph](https://github.com/scc5819/interpretable-ml-lectures/graphs/contributors).
 
 ## License
 

@@ -1,6 +1,9 @@
 # Interpretable ML — Lecture Materials
 
 [![CI](https://github.com/scc5819/interpretable-ml-lectures/actions/workflows/ci.yml/badge.svg)](https://github.com/scc5819/interpretable-ml-lectures/actions/workflows/ci.yml)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/scc5819/interpretable-ml-lectures/main)
+[![Code: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
+[![Content: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-blue.svg)](LICENSE-CC-BY-SA-4.0.md)
 
 Lecture materials on machine learning interpretability for **SCC5819 — Topics in Artificial Intelligence**, a graduate course at the Institute of Mathematics and Computer Sciences, University of São Paulo (ICMC-USP), Brazil, taught by Prof. Dr. André Carlos Ponce de Leon Ferreira de Carvalho. The materials follow the structure and terminology of the course's reference book, Christoph Molnar's [*Interpretable Machine Learning*](https://christophm.github.io/interpretable-ml-book/), covering it one lecture module per chapter from chapter 12 onward.
 
@@ -60,12 +63,16 @@ The same commitments apply to every module, and they are what the repository is 
 
 ## Getting started
 
-**In Colab.** The simplest route: open a module's notebook directly in Google Colab using the badge at the top of that module's README. No local setup.
+**In Colab.** The simplest route: open a module's notebook directly in Google Colab using the badges at the top of that module's README. No local setup — but know the trade-off: **Colab ignores `requirements.txt` entirely** and installs whatever the notebook's unpinned `%pip` cell resolves to that day, so sampling-sensitive third decimals may differ from the committed outputs. The conclusions hold; the bytes may not.
 
-**Locally.**
+**In Binder.** [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/scc5819/interpretable-ml-lectures/main) builds its image from this repository's `requirements.txt`, so unlike Colab it runs the *pinned* package stack (Binder's Python version may still differ from 3.14).
+
+**Locally** (the route the committed numbers were produced on):
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt          # the pins, human-readable
+# or, for an exact environment down to every transitive dependency:
+pip install --require-hashes -r requirements.lock
 jupyter notebook
 ```
 
@@ -73,7 +80,7 @@ Then open the notebooks inside the module of interest (e.g. `modules/14-lime/not
 
 ## Reproducibility
 
-Notebooks fix their random seeds (`random_state=42` throughout) and state their data splits explicitly. Committed figures and printed numbers were generated with Python 3.14 and the versions recorded in [`requirements.txt`](requirements.txt); other versions may shift sampling-sensitive results, and the notebooks flag where that matters. The baseline tracks the current stack deliberately: CI runs a weekly canary of the notebooks on the newest Python and unpinned latest packages, and the pins move when a maintainer verifies the numbers survive (the 3.12 → 3.14 upgrade was made exactly that way — every printed output byte-identical).
+Notebooks fix their random seeds (`random_state=42` throughout) and state their data splits explicitly. Committed figures and printed numbers were generated with Python 3.14 and the versions recorded in [`requirements.txt`](requirements.txt) — fully resolved, transitive dependencies included, with hashes in [`requirements.lock`](requirements.lock), which is what CI installs; other versions may shift sampling-sensitive results, and the notebooks flag where that matters. The baseline tracks the current stack deliberately: CI runs a weekly canary of the notebooks on the newest Python and unpinned latest packages, and the pins move when a maintainer verifies the numbers survive (the 3.12 → 3.14 upgrade was made exactly that way — every printed output byte-identical).
 
 ## Contributing
 

@@ -1,0 +1,75 @@
+<!-- Module README template. Keep this section order — it is what makes the
+     modules read as one series. Replace every <angle-bracket> placeholder and
+     delete the guidance comments. Module number = Molnar chapter number. -->
+
+# Module NN — <Method>
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ORGNAME/REPONAME/blob/main/modules/NN-slug/notebooks/<slug>_walkthrough.ipynb)
+
+<!-- One sentence: what this module is, tying into the shared case. Pattern:
+     "A worked case study of <Method> on a RandomForest trained on scikit-learn's
+     Breast Cancer Wisconsin (Diagnostic) dataset (569 patients, 30 features,
+     benign/malignant)." -->
+
+![<hero figure alt text>](figures/<hero-figure>.png)
+
+## Learning objectives
+
+<!-- Four numbered objectives. Each one should be checkable: a reader either can
+     or cannot do it after the module. -->
+
+1. …
+2. …
+3. …
+4. …
+
+## Why bother explaining this model
+
+<!-- The motivation, measured. The existing modules use the confidence split:
+     the forest is 99.4% right where confident, 52.9% where it hesitates —
+     reprint the numbers from your own notebook run, don't copy them. -->
+
+## What this module shows
+
+<!-- Numbered steps of the mechanism, then a bold "The case." paragraph naming
+     the instance being explained and every legibility choice made to plot it
+     (which features, why this patient), stated as choices. -->
+
+**The case.** …
+
+## What the module concludes, and how it is measured
+
+<!-- One bullet per claim. Every number in these bullets must be printed by a
+     committed notebook cell in this module, with its conditioning (n, seed,
+     span). Negative or withdrawn results stay in, marked as such. -->
+
+- **<Claim stated as a sentence.>** <The measurement that backs it.>
+
+## Lecture
+
+- **[`lecture/outline.md`](lecture/outline.md)** — what to say, what to point at in each figure, and the objections to be ready for.
+<!-- If a deck was delivered, list the PDF here too. Delivered decks are
+     historical artifacts: they carry their presenter's name and are not
+     retro-edited. -->
+
+## Notebooks
+
+- **`notebooks/<slug>_walkthrough.ipynb`** — the lecture: builds the figures and measures the headline claims.
+- **`notebooks/<slug>_internals.ipynb`** — the technical companion: validates the library against its own source and measures the method's behavior independently of its documentation.
+
+Committed figures are in `figures/`; running the notebooks regenerates them into `notebooks/figures_generated/` (git-ignored), so the canonical figures never change silently.
+
+## A note on configuration
+
+<!-- Required if the module overrides any package default. Say what was
+     overridden, what the default does, and why it matters when comparing these
+     outputs to other tutorials. Delete the section only if nothing is
+     overridden. -->
+
+## References
+
+<!-- Author-year entries, each with a parenthetical saying what it is being
+     cited FOR. Cite Molnar's chapter; never paste the book's figures or
+     extended passages (license incompatibility — see CONTRIBUTING). -->
+
+- Molnar, C. *Interpretable Machine Learning* — [<chapter> chapter](https://christophm.github.io/interpretable-ml-book/). (Course reference book.)

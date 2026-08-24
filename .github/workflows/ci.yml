@@ -1,4 +1,4 @@
-# Five checks, nothing more:
+# Four checks, nothing more:
 #   links        — relative/intra-repo links on every PR (offline, deterministic);
 #                  the full external check runs weekly and files an issue instead
 #                  of failing anyone's PR (arXiv/DOI hosts have bad days).
@@ -18,12 +18,9 @@
 #                  a PR touches them.
 #   citation     — CITATION.cff stays valid, so the "Cite this repository" button
 #                  keeps working.
-#   latest-stack — weekly, non-blocking canary: the walkthroughs on the newest
-#                  Python and unpinned latest packages. The pinned baseline is
-#                  the reproducibility claim and only moves in deliberate
-#                  upgrade PRs (see CONTRIBUTING); this job is how the repo
-#                  knows when the latest stack breaks or drifts, without
-#                  failing anyone's PR.
+#
+# The weekly latest-stack canary lives in its own workflow (canary.yml) so the
+# README can carry its badge; label sync lives in labels.yml.
 #
 # All third-party actions are pinned to commit SHAs (the tag rides in a
 # comment); Dependabot watches the github-actions ecosystem and proposes bumps.
@@ -266,33 +263,3 @@ jobs:
           content-filepath: ./board-issue.md
           labels: content
           issue-number: ${{ steps.find-issue.outputs.number }}
-
-  latest-stack:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    continue-on-error: true # canary: informs, never blocks
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        with:
-          python-version: "3.x" # newest stable Python
-      - name: Install latest, unpinned
-        run: pip install -U scikit-learn lime numpy scipy matplotlib jupyter
-      - name: Report the stack under test
-        run: |
-          python --version
-          pip list --format=freeze | grep -Ei '^(scikit-learn|lime|numpy|scipy|matplotlib)='
-      - name: Execute every walkthrough notebook on the latest stack
-        run: |
-          set -e
-          shopt -s nullglob
-          nbs=(modules/*/notebooks/*_walkthrough.ipynb)
-          if [ ${#nbs[@]} -eq 0 ]; then echo "no walkthrough notebooks found" >&2; exit 1; fi
-          for nb in "${nbs[@]}"; do
-            echo "::group::$nb"
-            time jupyter nbconvert --to notebook --execute \
-              --ExecutePreprocessor.timeout=1200 \
-              --output-dir "$RUNNER_TEMP/nbcanary" "$nb"
-            echo "::endgroup::"
-          done

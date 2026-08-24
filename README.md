@@ -1,6 +1,7 @@
 # Interpretable ML — Lecture Materials
 
 [![CI](https://github.com/scc5819/interpretable-ml-lectures/actions/workflows/ci.yml/badge.svg)](https://github.com/scc5819/interpretable-ml-lectures/actions/workflows/ci.yml)
+[![canary](https://github.com/scc5819/interpretable-ml-lectures/actions/workflows/canary.yml/badge.svg)](https://github.com/scc5819/interpretable-ml-lectures/actions/workflows/canary.yml)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/scc5819/interpretable-ml-lectures/main)
 [![Code: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Content: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-blue.svg)](LICENSE-CC-BY-SA-4.0.md)

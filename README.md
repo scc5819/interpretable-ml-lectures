@@ -29,11 +29,47 @@ One module per chapter of Molnar's book, from chapter 12 on. A module marked *op
 | 24 — LOFO | Leave-one-feature-out importance | open — contribution welcome |
 | 25 — Surrogate models | Global surrogates | open — contribution welcome |
 | 26 — Prototypes | Prototypes and criticisms | open — contribution welcome |
+| 27 — Learned features | What features a network learns | open — contribution welcome |
+| 28 — Saliency maps | Pixel attribution for network predictions | open — contribution welcome |
+| 29 — Detecting concepts | Concept-based explanations | open — contribution welcome |
+| 30 — Adversarial examples | Inputs crafted to fool the model | open — contribution welcome |
+| 31 — Influential instances | Training points that shape a prediction | open — contribution welcome |
 | 32 — Evaluation | Evaluating interpretability methods | open — contribution welcome |
 
-Module numbers are Molnar's chapter numbers, so the mapping between a lecture and its chapter never drifts. Chapters 27–31 (neural network interpretation) are welcome too — propose one via the [new-module issue form](https://github.com/scc5819/interpretable-ml-lectures/issues/new/choose); they will need a case of their own, since the shared case below is a tabular model. Chapters 33–34 are essays rather than methods, so they carry no module slot.
+Module numbers are Molnar's chapter numbers, so the mapping between a lecture and its chapter never drifts. Claim a chapter via the [new-module issue form](https://github.com/scc5819/interpretable-ml-lectures/issues/new/choose). Modules for chapters 27–31 (neural network interpretation) will need a case of their own, since the shared case below is a tabular model — say what it is in the proposal. Chapters 33–34 are essays rather than methods, so they carry no module slot.
 
 Every module is self-contained: its own notebooks, figures, lecture outline, references, and README. Method-specific citations live in the module that uses them, not here. Modules share one dataset, one model and one patient — the Breast Cancer Wisconsin (Diagnostic) dataset, a RandomForest, and test patient #67 — so the series reads as one continuous case.
+
+## Seminar schedule
+
+The 2026 offering, two chapters per session. Each presenter is the natural author of that chapter's module; module status is tracked in the table above.
+
+| Date | Ch. | Method | Presenter |
+|---|---|---|---|
+| 2026-08-17 | 12 | Ceteris Paribus Plots | Ana Julia Gonzalez Tendulini |
+| 2026-08-17 | 13 | Individual Conditional Expectation (ICE) | Fabiano Berardo de Sousa |
+| 2026-08-24 | 14 | LIME | William Bendinelli |
+| 2026-08-24 | 15 | Counterfactual Explanations | Paulo Alberto Garcia Ferreira |
+| 2026-08-31 | 17 | Shapley Values | Bruno Rafael Florentino |
+| 2026-08-31 | 18 | SHAP | Bruno Rafael Florentino |
+| 2026-09-14 | 16 | Scoped Rules (Anchors) | Bruna Campos Guedes |
+| 2026-09-14 | 19 | Partial Dependence Plot (PDP) | Rômulo Marques Carvalho |
+| 2026-09-21 | 20 | Accumulated Local Effects (ALE) | Ana Julia Gonzalez Tendulini |
+| 2026-09-21 | 21 | Feature Interaction | Paulo Alberto Garcia Ferreira |
+| 2026-10-05 | 22 | Functional Decomposition | Rômulo Marques Carvalho |
+| 2026-10-05 | 23 | Permutation Feature Importance | William Bendinelli |
+| 2026-10-19 | 24 | Leave One Feature Out (LOFO) | Bruno Rafael Florentino |
+| 2026-10-19 | 25 | Surrogate Models | Fabiano Berardo de Sousa |
+| 2026-10-26 | 26 | Prototypes and Criticisms | Bruna Campos Guedes |
+| 2026-10-26 | 27 | Learned Features | Ana Julia Gonzalez Tendulini |
+| 2026-11-09 | 28 | Saliency Maps | Paulo Alberto Garcia Ferreira |
+| 2026-11-09 | 29 | Detecting Concepts | William Bendinelli |
+| 2026-11-16 | 30 | Adversarial Examples | Fabiano Berardo de Sousa |
+| 2026-11-16 | 31 | Influential Instances | Bruna Campos Guedes |
+| 2026-11-23 | 32 | Evaluation of Interpretability Methods | Rômulo Marques Carvalho |
+| 2026-11-23 | 34 | The Future of Interpretability | Prof. Dr. André C. P. L. F. de Carvalho |
+
+No sessions on 2026-09-07, 2026-09-28, 2026-10-12 and 2026-11-02.
 
 ## How these materials are built
 

@@ -3,6 +3,13 @@ __pycache__/
 .ipynb_checkpoints/
 .venv*/
 venv/
+env/
+.idea/
+.vscode/
 .DS_Store
+# nbconvert/LIME HTML exports are generated artifacts — commit figures, not HTML
 *.html
 modules/*/notebooks/figures_generated/
+# scratch files written by the CI board job
+board-diff.txt
+board-issue.md

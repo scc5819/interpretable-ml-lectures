@@ -23,6 +23,10 @@
 - Point at: …
 - Number on screen: … (printed by `notebooks/<slug>_walkthrough.ipynb`, §…)
 
+<!-- Pointer style: name the notebook in full on first use; after that the short
+     forms `(walkthrough §N)` and `(internals §N)` are fine — module 14 states
+     this convention in its outline header. -->
+
 ## Objections to be ready for
 
 <!-- The questions a sharp student will ask, with the honest answers — including

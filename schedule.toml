@@ -7,6 +7,10 @@
 # so there is no status field to maintain here.
 # Presenters are display names only — no e-mails, no GitHub handles; a handle
 # field may be added later once people join GitHub.
+#
+# Seminars follow the course calendar, not chapter order: chapter 16 (Anchors)
+# is presented 2026-09-14, after chapters 17-18 (2026-08-31). The board sorts
+# by chapter, so its Seminar column is deliberately non-monotonic there.
 
 no_sessions = [2026-09-07, 2026-09-28, 2026-10-12, 2026-11-02]
 

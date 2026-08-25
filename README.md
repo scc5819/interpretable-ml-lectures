@@ -62,11 +62,26 @@ The same commitments apply to every module, and they are what the repository is 
 - **Each module pairs a lecture with a technical companion.** The lecture notebook teaches; a second notebook validates the implementation against the source code of the library being used, and measures the method's behavior independently of what its documentation promises.
 - **Limitations are measured, including inconvenient ones.** Where a method's standard framing does not survive testing, the material says so and shows the measurement — even when that undercuts the tidier version of the lesson.
 
+## Repository map
+
+| Path | What it is |
+|---|---|
+| [`modules/`](modules/) | one module per Molnar chapter — notebooks, figures, lecture outline, README |
+| [`modules/_template/`](modules/_template/) | the starting point for a new module |
+| [`schedule.toml`](schedule.toml) | single source of truth for the module board above |
+| [`tools/`](tools/) | `render_board.py` (renders the board) and `check_notebooks.py` (notebook conventions) |
+| [`tests/`](tests/) | pytest suite for the board tooling |
+| [`requirements.txt`](requirements.txt) / [`requirements.lock`](requirements.lock) | the pinned stack — human-readable pins, and the full hash-locked resolution |
+| [`CHANGELOG.md`](CHANGELOG.md) · [`SUPPORT.md`](SUPPORT.md) · [`SECURITY.md`](SECURITY.md) | repository-level changes, where to ask, how to report privately |
+| [`CLAUDE.md`](CLAUDE.md) | operating manual for coding agents (and a fine crib sheet for humans) |
+
 ## Getting started
 
 **In Colab.** The simplest route: open a module's notebook directly in Google Colab using the badges at the top of that module's README. No local setup — but know the trade-off: **Colab ignores `requirements.txt` entirely** and installs whatever the notebook's unpinned `%pip` cell resolves to that day, so sampling-sensitive third decimals may differ from the committed outputs. The conclusions hold; the bytes may not.
 
 **In Binder.** [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/scc5819/interpretable-ml-lectures/main) builds its image from this repository's `requirements.txt`, so unlike Colab it runs the *pinned* package stack (Binder's Python version may still differ from 3.14).
+
+**In a devcontainer.** [`.devcontainer/`](.devcontainer/devcontainer.json) builds on `python:3.14.6-slim` and installs the lockfile — the only route that guarantees the exact interpreter patch the committed outputs were produced on.
 
 **Locally** (the route the committed numbers were produced on):
 
@@ -97,7 +112,7 @@ Molnar, C. *Interpretable Machine Learning: A Guide for Making Black Box Models 
 
 ## Acknowledgments
 
-Course SCC5819 — Topics in Artificial Intelligence, ICMC-USP, taught by Prof. Dr. André Carlos Ponce de Leon Ferreira de Carvalho. The LIME module was written by William Bendinelli as the course's seminar material and originated in [wbendinelli/interpretable-ml-lectures](https://github.com/wbendinelli/interpretable-ml-lectures); the structure and terminology follow Christoph Molnar's *Interpretable Machine Learning*. Everyone who has contributed since is in the repository's [contributor graph](https://github.com/scc5819/interpretable-ml-lectures/graphs/contributors).
+Course SCC5819 — Topics in Artificial Intelligence, ICMC-USP, taught by Prof. Dr. André Carlos Ponce de Leon Ferreira de Carvalho; the structure and terminology follow Christoph Molnar's *Interpretable Machine Learning*. The repository originated in [wbendinelli/interpretable-ml-lectures](https://github.com/wbendinelli/interpretable-ml-lectures), with the LIME module as its seed. Module authorship is credited where it lives: each module README's byline, the presenter column of the [module board](#modules), the `authors` list in [`CITATION.cff`](CITATION.cff), and the [contributor graph](https://github.com/scc5819/interpretable-ml-lectures/graphs/contributors) for everything else.
 
 ## License
 

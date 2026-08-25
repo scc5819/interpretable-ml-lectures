@@ -4,7 +4,10 @@
 #                  of failing anyone's PR (arXiv/DOI hosts have bad days).
 #   checks       — pre-commit (yaml/toml lint, ruff on tools/, codespell,
 #                  actionlint, the notebook conventions from CONTRIBUTING, the
-#                  board's date-independent view) plus the render_board tests.
+#                  board's date-independent view), the render_board tests, and
+#                  the CHANGELOG discipline: a PR that touches modules/,
+#                  tools/, .github/ or requirements* must touch CHANGELOG.md
+#                  too (escape hatch: the no-changelog label).
 #   notebooks    — the walkthrough notebooks must run clean, top to bottom, on the
 #                  pinned environment. Output-value comparison is deliberately out
 #                  of scope: BLAS/platform drift alone moves the third decimal
@@ -67,6 +70,9 @@ jobs:
     if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -77,6 +83,24 @@ jobs:
         run: pre-commit run --all-files --show-diff-on-failure
       - name: render_board tests
         run: python -m pytest tests/ -q
+      - name: Notable changes must touch CHANGELOG.md
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          if gh pr view "$PR" --json labels --jq '.labels[].name' | grep -qx "no-changelog"; then
+            echo "no-changelog label set — skipping"
+            exit 0
+          fi
+          files=$(gh pr view "$PR" --json files --jq '.files[].path')
+          if echo "$files" | grep -qE '^(modules/|tools/|\.github/|requirements)' \
+             && ! echo "$files" | grep -qx 'CHANGELOG.md'; then
+            echo "This PR changes modules/, tools/, .github/ or requirements* without a CHANGELOG.md line." >&2
+            echo "Add one (what changed and why it matters), or apply the 'no-changelog' label if truly not notable." >&2
+            exit 1
+          fi
+          echo "CHANGELOG requirement satisfied"
 
   links-external:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'

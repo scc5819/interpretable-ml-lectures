@@ -39,3 +39,8 @@ description = "Dependabot action bumps (the pip ecosystem is deliberately unwatc
 name = "good first issue"
 color = "7057ff"
 description = "Good for newcomers"
+
+[[labels]]
+name = "no-changelog"
+color = "ededed"
+description = "This PR's changes are not notable — skip the CHANGELOG check"

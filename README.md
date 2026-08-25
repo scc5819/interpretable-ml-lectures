@@ -10,7 +10,7 @@ Lecture materials on machine learning interpretability for **SCC5819 — Topics 
 
 Each module covers one method, on real data, with every claim measured rather than asserted.
 
-The repository is maintained by the course community. Corrections, replications and new modules arrive as pull requests, and the evidence bar above applies to all of them — see [CONTRIBUTING.md](CONTRIBUTING.md).
+The repository is built by the course's students: corrections, replications and new modules arrive as pull requests — [CONTRIBUTING.md](CONTRIBUTING.md) has the step-by-step.
 
 ## Modules
 
@@ -55,12 +55,7 @@ Every module is self-contained: its own notebooks, figures, lecture outline, ref
 
 ## How these materials are built
 
-The same commitments apply to every module, and they are what the repository is for:
-
-- **Real data and real models.** No toy illustrations standing in for the method. If a figure shows a decision boundary, it is the model's actual decision boundary, computed rather than sketched.
-- **Every number is measured where it is stated.** Quantitative claims in a lecture are printed by the notebook that makes them, so a student can check any of them.
-- **Each module pairs a lecture with a technical companion.** The lecture notebook teaches; a second notebook validates the implementation against the source code of the library being used, and measures the method's behavior independently of what its documentation promises.
-- **Limitations are measured, including inconvenient ones.** Where a method's standard framing does not survive testing, the material says so and shows the measurement — even when that undercuts the tidier version of the lesson.
+Two habits keep the material checkable rather than just believable: quantitative claims are printed by the notebooks that make them, and each module pairs its lecture notebook with a technical companion that verifies the method against its own library. Real data and real models throughout — including the measurements that turn out inconvenient.
 
 ## Repository map
 
@@ -72,7 +67,7 @@ The same commitments apply to every module, and they are what the repository is 
 | [`tools/`](tools/) | `render_board.py` (renders the board) and `check_notebooks.py` (notebook conventions) |
 | [`tests/`](tests/) | pytest suite for the board tooling |
 | [`requirements.txt`](requirements.txt) / [`requirements.lock`](requirements.lock) | the pinned stack — human-readable pins, and the full hash-locked resolution |
-| [`CHANGELOG.md`](CHANGELOG.md) · [`SUPPORT.md`](SUPPORT.md) · [`SECURITY.md`](SECURITY.md) | repository-level changes, where to ask, how to report privately |
+| [`CHANGELOG.md`](CHANGELOG.md) | repository-level changes, dated |
 | [`CLAUDE.md`](CLAUDE.md) | operating manual for coding agents (and a fine crib sheet for humans) |
 
 ## Getting started
@@ -98,7 +93,7 @@ Notebooks fix their random seeds (`random_state=42` throughout) and state their 
 
 ## Contributing
 
-In priority order: a **measurement that falsifies a claim here** is the most valuable contribution; then replications on other datasets and models, corrections, new modules from the table above, and clarity edits. The one hard rule: a pull request that adds a claim must add the notebook cell that prints it. [CONTRIBUTING.md](CONTRIBUTING.md) has the first-steps guide, the evidence bar in full, and the module template; conduct is governed by the [Code of Conduct](CODE_OF_CONDUCT.md).
+Corrections, replications, new modules from the table above, clarity edits — all welcome, from anyone. The habit that keeps the material checkable: if a change states a number, it also adds the notebook cell that prints it. [CONTRIBUTING.md](CONTRIBUTING.md) has the setup guide and the module template.
 
 ## Citing
 

@@ -8,7 +8,7 @@ The repository has **one hard rule** and everything else serves it:
 > in the same module.** A number without a printing cell is a bug — either add
 > the cell or delete the number. When a measurement contradicts the prose, the
 > prose changes and the old value stays in the record, marked as corrected
-> (evidence bar, rule 4 — see CONTRIBUTING.md).
+> (evidence bar, rule 3 — see CONTRIBUTING.md).
 
 Full contributor policy: [CONTRIBUTING.md](CONTRIBUTING.md). This file is the
 condensed, agent-facing version plus the duties no check enforces.
@@ -84,8 +84,12 @@ Red checks are correct behavior — fix the cause, never weaken the check:
 - **Stripping notebook outputs, adding timestamps/`%%time`/progress bars,**
   or "fixing" the unpinned `%pip` cell — all deliberately the way they are.
 - **Flipping GitHub e-mail privacy** to surface a profile e-mail. The private
-  conduct contact is the institutional address in CONTRIBUTING's maintainers
-  table; the account's "keep e-mail private" setting stays on.
+  contact is the institutional address in CONTRIBUTING's Contact section; the
+  account's "keep e-mail private" setting stays on.
+- **Re-adding governance boilerplate** (code of conduct, security policy,
+  review-expectations sections). Deliberately removed: this is a repository
+  among course colleagues, and authority-toned documents were hurting
+  engagement. CI carries the quality bar; the docs stay in a peer voice.
 - **Adding infrastructure.** The repo is at its deliberate infra ceiling
   (CI, pre-commit, lock, board tooling, labels-as-config, canary). New
   investment goes into modules, not machinery.

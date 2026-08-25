@@ -3,6 +3,16 @@
 Notable changes to the repository as a whole. Module-level content changes are
 tracked in the git history under their `docs(NN-slug)`/`fix(NN-slug)` scopes.
 
+## 2026-08-25 — peer voice
+
+- Removed the Code of Conduct, SECURITY.md and SUPPORT.md, and rewrote
+  CONTRIBUTING and the README's framing sections in a peer voice: this is a
+  repository among course colleagues, and authority-toned governance was
+  hurting engagement. The quality bar did not move — CI still executes the
+  notebooks and checks every convention on every PR; the evidence bar stays
+  in CONTRIBUTING as three short rules. Private contact now lives in
+  CONTRIBUTING's Contact section.
+
 ## 2026-08-25 — agent operating manual
 
 - Removed the devcontainer: Colab, Binder and the lockfile cover every real

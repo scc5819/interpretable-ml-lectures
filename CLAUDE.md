@@ -104,9 +104,11 @@ Red checks are correct behavior — fix the cause, never weaken the check:
   --require-hashes -r requirements.lock` (or `-r requirements.txt` to merely
   follow along). Before pushing: `pre-commit run --all-files`,
   `python3 -m pytest tests/`, `python3 tools/render_board.py --check`.
-- Releases: `vYYYY.MM` per course offering (e.g. `v2026.08`), matching
-  `version:` in CITATION.cff. Labels are config: edit `.github/labels.toml`,
-  the sync workflow applies it on merge.
+- Releases: one `vYYYY.MM` tag per course offering, cut only when the
+  offering's material is complete — not mid-semester, when modules are still
+  landing weekly. `version:` in CITATION.cff names the offering either way.
+  Labels are config: edit `.github/labels.toml`, the sync workflow applies
+  it on merge.
 - Numbers were produced on Apple Silicon + the pinned stack and reproduce
   byte-identically there; a Linux runner may move third decimals, which is
   why CI executes notebooks but never diffs outputs.

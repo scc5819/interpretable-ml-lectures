@@ -112,7 +112,7 @@ Molnar, C. *Interpretable Machine Learning: A Guide for Making Black Box Models 
 
 ## Acknowledgments
 
-Course SCC5819 — Topics in Artificial Intelligence, ICMC-USP, taught by Prof. Dr. André Carlos Ponce de Leon Ferreira de Carvalho; the structure and terminology follow Christoph Molnar's *Interpretable Machine Learning*. The repository originated in [wbendinelli/interpretable-ml-lectures](https://github.com/wbendinelli/interpretable-ml-lectures), with the LIME module as its seed. Module authorship is credited where it lives: each module README's byline, the presenter column of the [module board](#modules), the `authors` list in [`CITATION.cff`](CITATION.cff), and the [contributor graph](https://github.com/scc5819/interpretable-ml-lectures/graphs/contributors) for everything else.
+Course SCC5819 — Topics in Artificial Intelligence, ICMC-USP, taught by Prof. Dr. André Carlos Ponce de Leon Ferreira de Carvalho; the structure and terminology follow Christoph Molnar's *Interpretable Machine Learning*. Module authorship is credited where it lives: each module README's byline, the presenter column of the [module board](#modules), the `authors` list in [`CITATION.cff`](CITATION.cff), and the [contributor graph](https://github.com/scc5819/interpretable-ml-lectures/graphs/contributors) for everything else.
 
 ## License
 

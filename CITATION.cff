@@ -4,8 +4,10 @@ title: "Interpretable ML — Lecture Materials"
 authors:
   - family-names: "Bendinelli"
     given-names: "William"
+    orcid: "https://orcid.org/0000-0001-8312-1825"
   - name: "The interpretable-ml-lectures contributors"
 type: software
+version: "2026.08"
 date-released: "2026-08-24"
 url: "https://github.com/scc5819/interpretable-ml-lectures"
 repository-code: "https://github.com/scc5819/interpretable-ml-lectures"

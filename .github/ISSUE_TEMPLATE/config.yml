@@ -1,1 +1,8 @@
 blank_issues_enabled: true
+contact_links:
+  - name: Private conduct report
+    url: https://github.com/scc5819/interpretable-ml-lectures/blob/main/CODE_OF_CONDUCT.md#enforcement
+    about: How to reach the maintainers privately — a conduct report never requires a public issue.
+  - name: Course reference book
+    url: https://christophm.github.io/interpretable-ml-book/
+    about: Molnar, Interpretable Machine Learning — chapter numbers here are the module numbers.

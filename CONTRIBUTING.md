@@ -14,6 +14,13 @@ This repository is a set of lecture materials built on one commitment: every cla
    jupyter notebook
    ```
 
+   To reproduce the committed outputs exactly, install from the fully resolved
+   lockfile instead — it pins every transitive dependency with hashes:
+
+   ```bash
+   pip install --require-hashes -r requirements.lock
+   ```
+
 3. **Run a walkthrough notebook** end to end (e.g. `modules/14-lime/notebooks/lime_walkthrough.ipynb`) and check a printed number against the module's README. That round trip — prose claim to notebook cell — is the standard everything here is held to.
 4. **Pick something**: an issue labeled `good first issue`, an open chapter from the [module table](README.md#modules), or any claim you think you can falsify.
 5. **Branch** (`fix/…`, `docs/…`, or `module/15-counterfactuals`), make the change, and open a pull request — the template will ask where your numbers come from.
@@ -34,7 +41,7 @@ In priority order:
 
 - Restyling figures without a measured reason.
 - Adding a method or a claim with no measurement behind it.
-- **Drive-by dependency additions or version bumps.** The pins in `requirements.txt` are what make the committed numbers reproducible; a bump is a content change that requires re-running every notebook, regenerating every figure, and re-checking every number quoted in prose. There is no Dependabot here on purpose, and version-bump PRs that don't do that work will be closed. The baseline *does* move — deliberately: CI runs a weekly non-blocking canary of the walkthroughs on the newest Python and unpinned latest packages, and when the maintainers upgrade the baseline (typically once per course offering, or when the canary shows real breakage), it happens as one PR that updates the pins *and* everything downstream of them.
+- **Drive-by dependency additions or version bumps.** The pins in `requirements.txt` (resolved with hashes in `requirements.lock`) are what make the committed numbers reproducible; a bump is a content change that requires re-running every notebook, regenerating every figure, and re-checking every number quoted in prose. Dependabot is disabled for Python packages on purpose, and version-bump PRs that don't do that work will be closed. The one deliberate exception is GitHub Actions: an action bump changes no printed number, so `.github/dependabot.yml` watches the `github-actions` ecosystem only. The Python baseline *does* move — deliberately: CI runs a weekly non-blocking canary of the walkthroughs on the newest Python and unpinned latest packages, and when the maintainers upgrade the baseline (typically once per course offering, or when the canary shows real breakage), it happens as one PR that updates the pins, regenerates `requirements.lock`, *and* everything downstream of them.
 - Translations — open an issue first; a translated fork is usually the better answer.
 
 ## The evidence bar
@@ -68,9 +75,11 @@ Start from [`modules/_template/`](modules/_template/):
 modules/NN-slug/
 ├── README.md                  # section order in the template
 ├── figures/                   # committed canonical figures, notebook-generated
+│   └── .gitkeep               # placeholder — delete once real figures land
 ├── lecture/
 │   └── outline.md             # required — the editable form of the lecture
 └── notebooks/
+    ├── README.md              # conventions crib sheet — delete once the notebooks exist
     ├── <slug>_walkthrough.ipynb
     └── <slug>_internals.ipynb
 ```
@@ -81,7 +90,7 @@ Rules that keep the series reading as one case:
 
 - **Keep the shared case.** Same dataset (Breast Cancer Wisconsin Diagnostic, as shipped with scikit-learn), same model (`RandomForestClassifier(n_estimators=300, min_samples_leaf=3, random_state=42)`), same split, same test patient #67. Deviate only with a measured reason, stated in the README. (Modules on chapters 27–31, neural network interpretation, will necessarily need their own case — say what it is and why.)
 - **`lecture/outline.md` is required; a slide deck is optional.** The outline is the artifact the community can edit. Delivered decks are historical records of a talk given by a person on a date — they carry their presenter's name and are not retro-edited.
-- The module README follows the template's section order, ending with a References list where each entry says in a parenthetical what it is being cited *for*.
+- The module README follows the template's section order (the "What the literature proposes to do about it" section is optional — include it when the module's findings have a literature of proposed fixes to map), ending with a References list where each entry says in a parenthetical what it is being cited *for*.
 
 ## Pull request workflow
 
@@ -97,9 +106,9 @@ Review checks the [evidence bar](#the-evidence-bar) above, point by point. Revie
 
 ## Maintainers
 
-| Maintainer | Scope |
-|---|---|
-| [@wbendinelli](https://github.com/wbendinelli) | repository, module 14 |
+| Maintainer | Scope | Private contact |
+|---|---|---|
+| [@wbendinelli](https://github.com/wbendinelli) | repository, module 14 | <william.bendinelli@alumni.usp.br> |
 
 Mirrored in [`.github/CODEOWNERS`](.github/CODEOWNERS). Authoring a module makes you the natural maintainer of it; the table grows with the modules.
 

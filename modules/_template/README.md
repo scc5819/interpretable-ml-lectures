@@ -2,9 +2,10 @@
      modules read as one series. Replace every <angle-bracket> placeholder and
      delete the guidance comments. Module number = Molnar chapter number. -->
 
-# Module NN — <Method>
+# Module <NN> — <Method>
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/scc5819/interpretable-ml-lectures/blob/main/modules/NN-slug/notebooks/<slug>_walkthrough.ipynb)
+[![Walkthrough — Open In Colab](https://img.shields.io/badge/walkthrough-open%20in%20Colab-F9AB00?logo=googlecolab)](https://colab.research.google.com/github/scc5819/interpretable-ml-lectures/blob/main/modules/<NN-slug>/notebooks/<slug>_walkthrough.ipynb)
+[![Internals — Open In Colab](https://img.shields.io/badge/internals-open%20in%20Colab-F9AB00?logo=googlecolab)](https://colab.research.google.com/github/scc5819/interpretable-ml-lectures/blob/main/modules/<NN-slug>/notebooks/<slug>_internals.ipynb)
 
 <!-- The byline is the module's credit line — keep it right under the badge.
      Link your GitHub profile if you have one; a plain name is fine too. -->
@@ -48,6 +49,13 @@
      span). Negative or withdrawn results stay in, marked as such. -->
 
 - **<Claim stated as a sentence.>** <The measurement that backs it.>
+
+## What the literature proposes to do about it
+
+<!-- Optional section. If the problems your module measures have a literature of
+     proposed fixes, map it here (as module 14 does) — cite a survey where one
+     exists, and say explicitly which proposals have NOT been verified in this
+     module's setting. Delete the section if there is nothing to map. -->
 
 ## Lecture
 

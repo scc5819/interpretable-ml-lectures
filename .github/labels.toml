@@ -1,0 +1,46 @@
+# Issue labels as config — the single source the sync workflow applies.
+# Edit this file and merge; .github/workflows/labels.yml runs `gh label create
+# --force` for each entry (idempotent: creates or updates color/description;
+# it never deletes labels, so removing a line here only stops managing it).
+# The four labels referenced by issue forms and CI are: content, new-module,
+# reproduction, good first issue.
+
+[[labels]]
+name = "falsification"
+color = "B60205"
+description = "A measurement showing a claim here is wrong — most wanted"
+
+[[labels]]
+name = "reproduction"
+color = "D93F0B"
+description = "A committed number doesn't reproduce"
+
+[[labels]]
+name = "content"
+color = "0E8A16"
+description = "Claim, quote, citation or link problem"
+
+[[labels]]
+name = "new-module"
+color = "1D76DB"
+description = "Proposal for a new chapter module"
+
+[[labels]]
+name = "accessibility"
+color = "f143ab"
+description = "Barrier affecting people with disabilities"
+
+[[labels]]
+name = "dependencies"
+color = "0366d6"
+description = "Dependabot action bumps (the pip ecosystem is deliberately unwatched)"
+
+[[labels]]
+name = "good first issue"
+color = "7057ff"
+description = "Good for newcomers"
+
+[[labels]]
+name = "no-changelog"
+color = "ededed"
+description = "This PR's changes are not notable — skip the CHANGELOG check"

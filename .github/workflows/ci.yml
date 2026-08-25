@@ -1,27 +1,37 @@
-# Three checks, nothing more:
+# Four checks, nothing more:
 #   links        — relative/intra-repo links on every PR (offline, deterministic);
 #                  the full external check runs weekly and files an issue instead
 #                  of failing anyone's PR (arXiv/DOI hosts have bad days).
+#   checks       — pre-commit (yaml/toml lint, ruff on tools/, codespell,
+#                  actionlint, the notebook conventions from CONTRIBUTING, the
+#                  board's date-independent view), the render_board tests, and
+#                  the CHANGELOG discipline: a PR that touches modules/,
+#                  tools/, .github/ or requirements* must touch CHANGELOG.md
+#                  too (escape hatch: the no-changelog label).
 #   notebooks    — the walkthrough notebooks must run clean, top to bottom, on the
 #                  pinned environment. Output-value comparison is deliberately out
 #                  of scope: BLAS/platform drift alone moves the third decimal
 #                  between a Linux runner and the macOS box that produced the
-#                  committed outputs, and the claim being enforced here is "the
-#                  pinned stack still executes and nothing dirties the tree".
+#                  committed outputs. The claim enforced here is "the pinned stack
+#                  still executes and writes nothing into tracked paths" —
+#                  nbconvert output goes to $RUNNER_TEMP and figures to a
+#                  git-ignored directory, so the dirty-tree check guards against
+#                  a notebook writing anywhere else.
 #                  The heavy *_internals notebooks run weekly, on dispatch, or when
 #                  a PR touches them.
 #   citation     — CITATION.cff stays valid, so the "Cite this repository" button
 #                  keeps working.
-#   latest-stack — weekly, non-blocking canary: the walkthroughs on the newest
-#                  Python and unpinned latest packages. The pinned baseline is
-#                  the reproducibility claim and only moves in deliberate
-#                  upgrade PRs (see CONTRIBUTING); this job is how the repo
-#                  knows when the latest stack breaks or drifts, without
-#                  failing anyone's PR.
+#
+# The weekly latest-stack canary lives in its own workflow (canary.yml) so the
+# README can carry its badge; label sync lives in labels.yml.
+#
+# All third-party actions are pinned to commit SHAs (the tag rides in a
+# comment); Dependabot watches the github-actions ecosystem and proposes bumps.
 #
 # Timeouts were measured locally (Apple Silicon, macOS, 2026-08-24, pinned
-# stack): lime_walkthrough 18.6 s, lime_internals 119.8 s wall clock. CI values
-# are ~3x that plus generous margin for slower Linux runners and pip install.
+# stack): lime_walkthrough 28.3 s, lime_internals 158.5 s wall clock (the §12
+# appendix added the seed sweep). CI values are ~3x that plus generous margin
+# for slower Linux runners and pip install.
 name: CI
 
 on:
@@ -36,9 +46,10 @@ permissions:
   contents: read
 
 # Cancel superseded runs on PRs only — cancelling main-branch runs leaves a
-# misleading red X on the commit.
+# misleading red X on the commit. The event name is part of the group so the
+# weekly scheduled run never queues behind (or cancels) a push run.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
@@ -47,13 +58,49 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Check relative and intra-repo links
-        uses: lycheeverse/lychee-action@v2
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           # _template holds intentional <placeholder> links
-          args: --offline --no-progress --include-fragments --exclude-path modules/_template "**/*.md"
+          args: --offline --no-progress --include-fragments --exclude-path modules/_template "**/*.md" CITATION.cff
           fail: true
+
+  checks:
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.14.6"
+      - run: pip install pre-commit pytest
+      - name: pre-commit (lint, notebook conventions, board static view)
+        run: pre-commit run --all-files --show-diff-on-failure
+      - name: render_board tests
+        run: python -m pytest tests/ -q
+      - name: Notable changes must touch CHANGELOG.md
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          if gh pr view "$PR" --json labels --jq '.labels[].name' | grep -qx "no-changelog"; then
+            echo "no-changelog label set — skipping"
+            exit 0
+          fi
+          files=$(gh pr view "$PR" --json files --jq '.files[].path')
+          if echo "$files" | grep -qE '^(modules/|tools/|\.github/|requirements)' \
+             && ! echo "$files" | grep -qx 'CHANGELOG.md'; then
+            echo "This PR changes modules/, tools/, .github/ or requirements* without a CHANGELOG.md line." >&2
+            echo "Add one (what changed and why it matters), or apply the 'no-changelog' label if truly not notable." >&2
+            exit 1
+          fi
+          echo "CHANGELOG requirement satisfied"
 
   links-external:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
@@ -63,20 +110,34 @@ jobs:
       contents: read
       issues: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Check all links, external included
         id: lychee
-        uses: lycheeverse/lychee-action@v2
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
-          args: --no-progress --max-retries 2 --accept 200,206,429 --exclude-path modules/_template "**/*.md" CITATION.cff
+          # 403: dl.acm.org (and friends) refuse CI user agents for links that
+          # open fine in a browser — a 403 here is noise, not a broken link.
+          args: --no-progress --max-retries 2 --accept 200,206,403,429 --exclude-path modules/_template "**/*.md" "**/*.ipynb" CITATION.cff
           fail: false
+      - name: Find the open tracking issue, if one exists
+        if: steps.lychee.outputs.exit_code != 0
+        id: find-issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open \
+                --search 'in:title "Broken links (weekly check)"' \
+                --json number,title \
+                --jq '[.[] | select(.title == "Broken links (weekly check)")][0].number // empty')
+          echo "number=$n" >> "$GITHUB_OUTPUT"
       - name: File or update the tracking issue
         if: steps.lychee.outputs.exit_code != 0
-        uses: peter-evans/create-issue-from-file@v5
+        uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710 # v6.0.0
         with:
           title: "Broken links (weekly check)"
           content-filepath: ./lychee/out.md
           labels: content
+          issue-number: ${{ steps.find-issue.outputs.number }}
 
   changes:
     if: github.event_name == 'pull_request'
@@ -85,8 +146,8 @@ jobs:
     outputs:
       internals: ${{ steps.filter.outputs.internals }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
         id: filter
         with:
           filters: |
@@ -96,25 +157,29 @@ jobs:
   walkthroughs:
     if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
-    timeout-minutes: 15 # measured 18.6 s/notebook locally; margin for install + runner
+    timeout-minutes: 15 # measured ~19 s/notebook locally; margin for install + runner
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
-          python-version: "3.14"
+          python-version: "3.14.6"
           cache: pip
-      - run: pip install -r requirements.txt
+          cache-dependency-path: requirements.lock
+      - run: pip install --require-hashes -r requirements.lock
       - name: Execute every walkthrough notebook on the pinned stack
         run: |
           set -e
-          for nb in modules/*/notebooks/*_walkthrough.ipynb; do
+          shopt -s nullglob
+          nbs=(modules/*/notebooks/*_walkthrough.ipynb)
+          if [ ${#nbs[@]} -eq 0 ]; then echo "no walkthrough notebooks found" >&2; exit 1; fi
+          for nb in "${nbs[@]}"; do
             echo "::group::$nb"
             time jupyter nbconvert --to notebook --execute \
               --ExecutePreprocessor.timeout=1200 \
               --output-dir "$RUNNER_TEMP/nbci" "$nb"
             echo "::endgroup::"
           done
-      - name: Execution must not dirty the tree
+      - name: Execution must not write into tracked or untracked repo paths
         run: |
           git status --porcelain
           test -z "$(git status --porcelain)"
@@ -122,31 +187,35 @@ jobs:
   internals:
     needs: [changes]
     if: >-
-      always() && (
+      !cancelled() && (
         github.event_name == 'schedule' ||
         github.event_name == 'workflow_dispatch' ||
         (github.event_name == 'pull_request' && needs.changes.outputs.internals == 'true')
       )
     runs-on: ubuntu-latest
-    timeout-minutes: 30 # measured 119.8 s locally; margin for install + runner
+    timeout-minutes: 30 # measured 158.5 s locally (§12 seed sweep included); margin for install + runner
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
-          python-version: "3.14"
+          python-version: "3.14.6"
           cache: pip
-      - run: pip install -r requirements.txt
+          cache-dependency-path: requirements.lock
+      - run: pip install --require-hashes -r requirements.lock
       - name: Execute every internals notebook on the pinned stack
         run: |
           set -e
-          for nb in modules/*/notebooks/*_internals.ipynb; do
+          shopt -s nullglob
+          nbs=(modules/*/notebooks/*_internals.ipynb)
+          if [ ${#nbs[@]} -eq 0 ]; then echo "no internals notebooks found" >&2; exit 1; fi
+          for nb in "${nbs[@]}"; do
             echo "::group::$nb"
             time jupyter nbconvert --to notebook --execute \
-              --ExecutePreprocessor.timeout=2400 \
+              --ExecutePreprocessor.timeout=3600 \
               --output-dir "$RUNNER_TEMP/nbci" "$nb"
             echo "::endgroup::"
           done
-      - name: Execution must not dirty the tree
+      - name: Execution must not write into tracked or untracked repo paths
         run: |
           git status --porcelain
           test -z "$(git status --porcelain)"
@@ -156,12 +225,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: dieghernan/cff-validator@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: dieghernan/cff-validator@d8f85828214016ce6976e740b6e0504c0fdc4dbb # v5
 
-  # Deliberately NOT run on PRs: the board's presented/awaited statuses are
-  # date-dependent, so a PR check would start failing unrelated PRs the day
-  # after each session. The weekly run files an issue instead.
+  # The full board check (presented/awaited statuses) is date-dependent, so it
+  # runs weekly and files an issue instead of failing PRs the day after each
+  # session. PRs still get the date-independent view via the `checks` job
+  # (render_board.py --check-static).
   board:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
@@ -170,14 +240,23 @@ jobs:
       contents: read
       issues: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
-          python-version: "3.14"
+          python-version: "3.14.6"
       - name: Check the module board against schedule.toml and the calendar
         id: board
         run: |
-          if ! python3 tools/render_board.py --check 2> board-diff.txt; then
+          set +e
+          python3 tools/render_board.py --check 2> board-diff.txt
+          rc=$?
+          set -e
+          if [ "$rc" -eq 2 ]; then
+            # broken input is a CI failure, not a stale board
+            cat board-diff.txt >&2
+            exit 1
+          fi
+          if [ "$rc" -eq 1 ]; then
             {
               echo "The README module board no longer matches \`schedule.toml\`, the calendar, and the \`modules/\` tree."
               echo
@@ -189,37 +268,22 @@ jobs:
             } > board-issue.md
             echo "stale=true" >> "$GITHUB_OUTPUT"
           fi
+      - name: Find the open tracking issue, if one exists
+        if: steps.board.outputs.stale == 'true'
+        id: find-issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open \
+                --search 'in:title "Module board is stale"' \
+                --json number,title \
+                --jq '[.[] | select(.title == "Module board is stale")][0].number // empty')
+          echo "number=$n" >> "$GITHUB_OUTPUT"
       - name: File or update the tracking issue
         if: steps.board.outputs.stale == 'true'
-        uses: peter-evans/create-issue-from-file@v5
+        uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710 # v6.0.0
         with:
           title: "Module board is stale"
           content-filepath: ./board-issue.md
           labels: content
-
-  latest-stack:
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    continue-on-error: true # canary: informs, never blocks
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x" # newest stable Python
-      - name: Install latest, unpinned
-        run: pip install -U scikit-learn lime numpy scipy matplotlib jupyter
-      - name: Report the stack under test
-        run: |
-          python --version
-          pip list --format=freeze | grep -Ei '^(scikit-learn|lime|numpy|scipy|matplotlib)='
-      - name: Execute every walkthrough notebook on the latest stack
-        run: |
-          set -e
-          for nb in modules/*/notebooks/*_walkthrough.ipynb; do
-            echo "::group::$nb"
-            time jupyter nbconvert --to notebook --execute \
-              --ExecutePreprocessor.timeout=1200 \
-              --output-dir "$RUNNER_TEMP/nbcanary" "$nb"
-            echo "::endgroup::"
-          done
+          issue-number: ${{ steps.find-issue.outputs.number }}

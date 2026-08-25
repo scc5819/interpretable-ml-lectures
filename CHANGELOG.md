@@ -5,6 +5,9 @@ tracked in the git history under their `docs(NN-slug)`/`fix(NN-slug)` scopes.
 
 ## 2026-08-25 — agent operating manual
 
+- Removed the devcontainer: Colab, Binder and the lockfile cover every real
+  use; an exact-interpreter route nobody uses is maintenance, not value.
+
 - `CLAUDE.md` (with an `AGENTS.md` pointer): the condensed operating manual
   for coding agents — what CI enforces, the duties no check can enforce
   (CHANGELOG, board regeneration, the notebook re-run protocol, figure

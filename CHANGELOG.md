@@ -3,6 +3,20 @@
 Notable changes to the repository as a whole. Module-level content changes are
 tracked in the git history under their `docs(NN-slug)`/`fix(NN-slug)` scopes.
 
+## 2026-08-25 — agent operating manual
+
+- `CLAUDE.md` (with an `AGENTS.md` pointer): the condensed operating manual
+  for coding agents — what CI enforces, the duties no check can enforce
+  (CHANGELOG, board regeneration, the notebook re-run protocol, figure
+  promotion, prose↔cell sync, the 03-lime mirror), and the changes that look
+  like improvements but are policy violations here.
+- CI now enforces the CHANGELOG discipline: a PR touching `modules/`,
+  `tools/`, `.github/` or `requirements*` must touch `CHANGELOG.md` too
+  (escape hatch: the `no-changelog` label, added to `labels.toml`).
+- README: repository map, devcontainer route in Getting started, and the
+  Acknowledgments now credit module authorship where it lives (bylines, the
+  board, `CITATION.cff`) instead of naming authors inline.
+
 ## 2026-08-24 — audit fixes
 
 An external audit of the repository (structure, CI, governance, and a

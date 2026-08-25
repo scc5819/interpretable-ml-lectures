@@ -1,6 +1,8 @@
 # Contributing
 
-This repository is a set of lecture materials built on one commitment: every claim is measured rather than asserted (see [How these materials are built](README.md#how-these-materials-are-built)). Contributing here means holding your change to that same bar — and holding the existing material to it, which is the contribution we want most.
+This is our course's shared repository — each seminar can become a module, and
+anyone can improve any module. This page is the practical how-to; the CI does
+the nitpicking automatically, so nobody has to.
 
 ## Your first contribution
 
@@ -14,97 +16,98 @@ This repository is a set of lecture materials built on one commitment: every cla
    jupyter notebook
    ```
 
-3. **Run a walkthrough notebook** end to end (e.g. `modules/14-lime/notebooks/lime_walkthrough.ipynb`) and check a printed number against the module's README. That round trip — prose claim to notebook cell — is the standard everything here is held to.
-4. **Pick something**: an issue labeled `good first issue`, an open chapter from the [module table](README.md#modules), or any claim you think you can falsify.
-5. **Branch** (`fix/…`, `docs/…`, or `module/15-counterfactuals`), make the change, and open a pull request — the template will ask where your numbers come from.
+   To reproduce the committed outputs exactly, `pip install --require-hashes
+   -r requirements.lock` installs the full locked stack instead.
 
-One thing not to "fix" along the way: the first cell of every notebook is `%pip install -q …` with **no version pins**. That is deliberate — it is there for Colab, and in a prepared venv it is a no-op because pip treats already-satisfied unpinned requirements as satisfied, so the pins in `requirements.txt` hold. Never add `-U` or inline versions to that cell. The rationale for the pins themselves is in the header of [`requirements.txt`](requirements.txt).
+3. **Run a walkthrough notebook** end to end (e.g. `modules/14-lime/notebooks/lime_walkthrough.ipynb`) to see the format working.
+4. **Branch, change, open a pull request.** CI runs the notebooks and checks links and formatting on every PR — if something is off, the robot says exactly what, before anyone else even looks.
 
-## What we're looking for
-
-In priority order:
-
-1. **Falsifications.** A measurement showing that a claim in this repository is wrong. This is the most valuable kind of PR, and the repository already carries the precedent: the LIME module's R²-versus-confidence finding was withdrawn after replication failed on other models and datasets, and the record of that failure is kept in the module rather than deleted. Do that to us again.
-2. **Replications.** The same measurement on other datasets and model classes (the LIME module's §11b kernel-deletion sweep across four datasets and three model classes is the pattern to imitate).
-3. **Corrections.** Broken links, misquotes, citation errors, arithmetic.
-4. **New modules.** One Molnar chapter each — see the [module table](README.md#modules) and [Adding a new module](#adding-a-new-module).
-5. **Clarity edits** to prose and lecture outlines.
-
-**Out of scope** (so nobody wastes a weekend):
-
-- Restyling figures without a measured reason.
-- Adding a method or a claim with no measurement behind it.
-- **Drive-by dependency additions or version bumps.** The pins in `requirements.txt` are what make the committed numbers reproducible; a bump is a content change that requires re-running every notebook, regenerating every figure, and re-checking every number quoted in prose. There is no Dependabot here on purpose, and version-bump PRs that don't do that work will be closed. The baseline *does* move — deliberately: CI runs a weekly non-blocking canary of the walkthroughs on the newest Python and unpinned latest packages, and when the maintainers upgrade the baseline (typically once per course offering, or when the canary shows real breakage), it happens as one PR that updates the pins *and* everything downstream of them.
-- Translations — open an issue first; a translated fork is usually the better answer.
+One heads-up: the first cell of every notebook is `%pip install -q …` with no
+version pins. That is on purpose — it is what makes the Colab badge work, and
+in a prepared venv it is a no-op. Leave it as is (no `-U`, no versions).
 
 ## The evidence bar
 
-Every PR that touches a claim is reviewed against these six rules:
+The one idea that makes this material worth publishing — everything in it can
+be checked, not just believed:
 
-1. **Every quantitative claim in prose is printed by a committed notebook cell in the same module.** The PR description must name the notebook and the section that prints each changed number.
-2. **Numbers come from a run against the pinned `requirements.txt` on Python 3.14.** A number produced in a different environment is a different number.
-3. **Report the conditioning.** Sample size, seed, and any span, threshold or grid choice — and what happens when it changes. An unconditioned number reads as an assertion.
-4. **Negative and withdrawn results are kept, not deleted.** A PR that falsifies a claim rewrites the claim *and* keeps the record of what failed and why — that record is part of the material.
-5. **Quotes from the literature are verbatim, with section-level pointers** (e.g. §3.2.3), not paraphrase presented as quotation.
-6. **Do not paste figures or extended passages from Molnar's book.** The book is CC BY-NC-SA; this repository's content is CC BY-SA, and the two are compatible only as long as we cite and link rather than reproduce. All committed figures must be generated by the notebooks in this repository.
+1. **A number stated in prose is printed by a committed notebook cell in the
+   same module**, so any reader can re-run it.
+2. **Numbers carry their conditioning** — sample size, seed, span — so they
+   can be compared honestly.
+3. **When a claim turns out wrong, the text is corrected and a note of the
+   old value stays.** Corrections are part of the material, not something to
+   hide — the LIME module keeps several of its own, and they are some of its
+   best teaching moments.
+
+Two practical notes: quotes from the literature are verbatim with section
+pointers, and we cite and link Molnar's book rather than pasting its figures
+(the book is CC BY-NC-SA; our content is CC BY-SA — compatible only at a
+distance).
 
 ## Notebook conventions
 
-- Two notebooks per module: `<slug>_walkthrough.ipynb` (the lecture) and `<slug>_internals.ipynb` (the technical companion that validates the library against its own source code and measures the method's behavior independently of its documentation).
-- `RANDOM_STATE = 42` throughout; data splits stated explicitly in the notebook.
-- **Figures.** Notebooks write to `figures_generated/` (relative to the notebook directory, git-ignored). Canonical figures are committed by hand into `modules/NN-slug/figures/`, so a committed figure never changes silently. A PR that changes a committed figure must say which cell regenerated it and why the picture moved.
-- **Commit notebooks with outputs** — that is how the numbers are checkable. Run *Restart & Run All* in a fresh kernel first, so execution counts run 1..N.
-- Keep outputs deterministic: no wall-clock timestamps, no `%%time`, no progress bars that bake elapsed time into stored output.
-- `jupytext` (in the tooling block of `requirements.txt`) is handy for diffing notebooks as text; pairing is optional and no `.py` sources are tracked.
-- Overriding a package default (as the LIME module does with `discretize_continuous=False`) requires a matching "A note on configuration" section in the module README, so readers comparing against other tutorials know why the outputs differ.
+- Two notebooks per module: `<slug>_walkthrough.ipynb` (the lecture) and
+  `<slug>_internals.ipynb` (the companion that checks the method against its
+  own library).
+- `RANDOM_STATE = 42`; data splits stated explicitly.
+- Figures go to `figures_generated/` (git-ignored); the committed copies live
+  in `modules/NN-slug/figures/` and are promoted by hand, so a committed
+  figure never changes silently.
+- Commit notebooks **with outputs**, after *Restart & Run All* in a fresh
+  kernel — that is what makes the numbers checkable.
+- Keep outputs deterministic: no timestamps, no `%%time`, no progress bars.
+
+(CI verifies all of this automatically — the list is here so the robot's
+messages make sense, not so anyone memorizes it.)
 
 ## Adding a new module
 
-Claim a chapter **before** writing it, via the [new-module issue form](https://github.com/scc5819/interpretable-ml-lectures/issues/new/choose) — scope and numbering get agreed there, and the module table gets your name on the row. Module numbers are Molnar's chapter numbers.
-
-Start from [`modules/_template/`](modules/_template/):
+Claim your chapter first via the [new-module issue form](https://github.com/scc5819/interpretable-ml-lectures/issues/new/choose),
+so two people don't build the same one. Module numbers are Molnar's chapter
+numbers. Then start from [`modules/_template/`](modules/_template/):
 
 ```
 modules/NN-slug/
-├── README.md                  # section order in the template
-├── figures/                   # committed canonical figures, notebook-generated
+├── README.md
+├── figures/
 ├── lecture/
-│   └── outline.md             # required — the editable form of the lecture
+│   └── outline.md
 └── notebooks/
     ├── <slug>_walkthrough.ipynb
     └── <slug>_internals.ipynb
 ```
 
-When the module lands, run `python3 tools/render_board.py` and commit the README change — the module table is **generated** from [`schedule.toml`](schedule.toml) plus the `modules/` tree, and your row flips to *available* automatically. Edit `schedule.toml` (dates, titles, presenters), never the table itself; a weekly CI check files an issue when the board drifts.
+When it lands, run `python3 tools/render_board.py` and commit the README
+change — your row in the module table flips to *available* by itself.
 
-Rules that keep the series reading as one case:
+Two things that help the series read as one continuous case: keeping the
+shared setup where it fits (Breast Cancer Wisconsin dataset,
+`RandomForestClassifier(n_estimators=300, min_samples_leaf=3, random_state=42)`,
+test patient #67 — chapters 27–31 will naturally need their own), and noting
+in the README when a module overrides a package default, so readers comparing
+with other tutorials know why outputs differ.
 
-- **Keep the shared case.** Same dataset (Breast Cancer Wisconsin Diagnostic, as shipped with scikit-learn), same model (`RandomForestClassifier(n_estimators=300, min_samples_leaf=3, random_state=42)`), same split, same test patient #67. Deviate only with a measured reason, stated in the README. (Modules on chapters 27–31, neural network interpretation, will necessarily need their own case — say what it is and why.)
-- **`lecture/outline.md` is required; a slide deck is optional.** The outline is the artifact the community can edit. Delivered decks are historical records of a talk given by a person on a date — they carry their presenter's name and are not retro-edited.
-- The module README follows the template's section order, ending with a References list where each entry says in a parenthetical what it is being cited *for*.
+A note on dependencies: the pins in `requirements.txt` are what make the
+committed numbers reproducible, so version bumps travel together with a full
+re-run of the notebooks (Dependabot only watches GitHub Actions here, where a
+bump changes no printed number).
 
-## Pull request workflow
+Delivered slide decks are historical records — they keep their presenter's
+name and are not retro-edited; the living, editable form of a lecture is its
+`lecture/outline.md`.
 
-Fork → branch → commit → PR → CI → review.
+## Contact
 
-- **Commit style** follows the existing history: `docs(14-lime): …`, `fix(14-lime): …` — type plus the module slug as scope. A falsification is a `fix`.
-- **Branches**: `fix/…`, `docs/…`, `module/NN-slug`.
-- CI runs a link check and executes the walkthrough notebooks against the pinned environment; the internals notebooks run when a PR touches them. A PR that leaves the working tree dirty after notebook execution fails CI.
-
-## Review expectations
-
-Review checks the [evidence bar](#the-evidence-bar) above, point by point. Reviewers may ask for a re-run with different conditioning (a different span, seed, or sample size) before merging. Expect turnaround in days, not hours — this is a course repository maintained by people with coursework. Falsification PRs are looked at first.
-
-## Maintainers
-
-| Maintainer | Scope |
-|---|---|
-| [@wbendinelli](https://github.com/wbendinelli) | repository, module 14 |
-
-Mirrored in [`.github/CODEOWNERS`](.github/CODEOWNERS). Authoring a module makes you the natural maintainer of it; the table grows with the modules.
+Questions, suggestions, or anything you'd rather raise privately:
+[@wbendinelli](https://github.com/wbendinelli) — <william.bendinelli@alumni.usp.br> —
+or the course professor. Commit style follows the existing history
+(`docs(14-lime): …`, `fix(14-lime): …`); look at `git log` and copy the shape.
 
 ## Licensing of contributions
 
-By opening a pull request you agree that your prose, figures and outlines are published under [CC BY-SA 4.0](LICENSE-CC-BY-SA-4.0.md) and your code under [MIT](LICENSE). There is no CLA. Authoring a whole module earns an entry in [`CITATION.cff`](CITATION.cff)'s author list; every other contribution is credited by the commit history and the contributor graph.
-
-Conduct in issues, PRs and reviews is governed by the [Code of Conduct](CODE_OF_CONDUCT.md).
+By opening a pull request you agree that your prose, figures and outlines are
+published under [CC BY-SA 4.0](LICENSE-CC-BY-SA-4.0.md) and your code under
+[MIT](LICENSE) — always with attribution to you. Authoring a module earns an
+entry in [`CITATION.cff`](CITATION.cff)'s author list; every contribution is
+credited by the commit history either way. There is no CLA.

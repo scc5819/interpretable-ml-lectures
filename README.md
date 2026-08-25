@@ -1,12 +1,16 @@
 # Interpretable ML — Lecture Materials
 
 [![CI](https://github.com/scc5819/interpretable-ml-lectures/actions/workflows/ci.yml/badge.svg)](https://github.com/scc5819/interpretable-ml-lectures/actions/workflows/ci.yml)
+[![canary](https://github.com/scc5819/interpretable-ml-lectures/actions/workflows/canary.yml/badge.svg)](https://github.com/scc5819/interpretable-ml-lectures/actions/workflows/canary.yml)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/scc5819/interpretable-ml-lectures/main)
+[![Code: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
+[![Content: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-blue.svg)](LICENSE-CC-BY-SA-4.0.md)
 
 Lecture materials on machine learning interpretability for **SCC5819 — Topics in Artificial Intelligence**, a graduate course at the Institute of Mathematics and Computer Sciences, University of São Paulo (ICMC-USP), Brazil, taught by Prof. Dr. André Carlos Ponce de Leon Ferreira de Carvalho. The materials follow the structure and terminology of the course's reference book, Christoph Molnar's [*Interpretable Machine Learning*](https://christophm.github.io/interpretable-ml-book/), covering it one lecture module per chapter from chapter 12 onward.
 
 Each module covers one method, on real data, with every claim measured rather than asserted.
 
-The repository is maintained by the course community. Corrections, replications and new modules arrive as pull requests, and the evidence bar above applies to all of them — see [CONTRIBUTING.md](CONTRIBUTING.md).
+The repository is built by the course's students: corrections, replications and new modules arrive as pull requests — [CONTRIBUTING.md](CONTRIBUTING.md) has the step-by-step.
 
 ## Modules
 
@@ -51,21 +55,33 @@ Every module is self-contained: its own notebooks, figures, lecture outline, ref
 
 ## How these materials are built
 
-The same commitments apply to every module, and they are what the repository is for:
+Two habits keep the material checkable rather than just believable: quantitative claims are printed by the notebooks that make them, and each module pairs its lecture notebook with a technical companion that verifies the method against its own library. Real data and real models throughout — including the measurements that turn out inconvenient.
 
-- **Real data and real models.** No toy illustrations standing in for the method. If a figure shows a decision boundary, it is the model's actual decision boundary, computed rather than sketched.
-- **Every number is measured where it is stated.** Quantitative claims in a lecture are printed by the notebook that makes them, so a student can check any of them.
-- **Each module pairs a lecture with a technical companion.** The lecture notebook teaches; a second notebook validates the implementation against the source code of the library being used, and measures the method's behavior independently of what its documentation promises.
-- **Limitations are measured, including inconvenient ones.** Where a method's standard framing does not survive testing, the material says so and shows the measurement — even when that undercuts the tidier version of the lesson.
+## Repository map
+
+| Path | What it is |
+|---|---|
+| [`modules/`](modules/) | one module per Molnar chapter — notebooks, figures, lecture outline, README |
+| [`modules/_template/`](modules/_template/) | the starting point for a new module |
+| [`schedule.toml`](schedule.toml) | single source of truth for the module board above |
+| [`tools/`](tools/) | `render_board.py` (renders the board) and `check_notebooks.py` (notebook conventions) |
+| [`tests/`](tests/) | pytest suite for the board tooling |
+| [`requirements.txt`](requirements.txt) / [`requirements.lock`](requirements.lock) | the pinned stack — human-readable pins, and the full hash-locked resolution |
+| [`CHANGELOG.md`](CHANGELOG.md) | repository-level changes, dated |
+| [`CLAUDE.md`](CLAUDE.md) | operating manual for coding agents (and a fine crib sheet for humans) |
 
 ## Getting started
 
-**In Colab.** The simplest route: open a module's notebook directly in Google Colab using the badge at the top of that module's README. No local setup.
+**In Colab.** The simplest route: open a module's notebook directly in Google Colab using the badges at the top of that module's README. No local setup — but know the trade-off: **Colab ignores `requirements.txt` entirely** and installs whatever the notebook's unpinned `%pip` cell resolves to that day, so sampling-sensitive third decimals may differ from the committed outputs. The conclusions hold; the bytes may not.
 
-**Locally.**
+**In Binder.** [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/scc5819/interpretable-ml-lectures/main) builds its image from this repository's `requirements.txt`, so unlike Colab it runs the *pinned* package stack (Binder's Python version may still differ from 3.14).
+
+**Locally** (the route the committed numbers were produced on):
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt          # the pins, human-readable
+# or, for an exact environment down to every transitive dependency:
+pip install --require-hashes -r requirements.lock
 jupyter notebook
 ```
 
@@ -73,11 +89,11 @@ Then open the notebooks inside the module of interest (e.g. `modules/14-lime/not
 
 ## Reproducibility
 
-Notebooks fix their random seeds (`random_state=42` throughout) and state their data splits explicitly. Committed figures and printed numbers were generated with Python 3.14 and the versions recorded in [`requirements.txt`](requirements.txt); other versions may shift sampling-sensitive results, and the notebooks flag where that matters. The baseline tracks the current stack deliberately: CI runs a weekly canary of the notebooks on the newest Python and unpinned latest packages, and the pins move when a maintainer verifies the numbers survive (the 3.12 → 3.14 upgrade was made exactly that way — every printed output byte-identical).
+Notebooks fix their random seeds (`random_state=42` throughout) and state their data splits explicitly. Committed figures and printed numbers were generated with Python 3.14 and the versions recorded in [`requirements.txt`](requirements.txt) — fully resolved, transitive dependencies included, with hashes in [`requirements.lock`](requirements.lock), which is what CI installs; other versions may shift sampling-sensitive results, and the notebooks flag where that matters. The baseline tracks the current stack deliberately: CI runs a weekly canary of the notebooks on the newest Python and unpinned latest packages, and the pins move when a maintainer verifies the numbers survive (the 3.12 → 3.14 upgrade was made exactly that way — every printed output byte-identical).
 
 ## Contributing
 
-In priority order: a **measurement that falsifies a claim here** is the most valuable contribution; then replications on other datasets and models, corrections, new modules from the table above, and clarity edits. The one hard rule: a pull request that adds a claim must add the notebook cell that prints it. [CONTRIBUTING.md](CONTRIBUTING.md) has the first-steps guide, the evidence bar in full, and the module template; conduct is governed by the [Code of Conduct](CODE_OF_CONDUCT.md).
+Corrections, replications, new modules from the table above, clarity edits — all welcome, from anyone. The habit that keeps the material checkable: if a change states a number, it also adds the notebook cell that prints it. [CONTRIBUTING.md](CONTRIBUTING.md) has the setup guide and the module template.
 
 ## Citing
 
@@ -89,7 +105,7 @@ Molnar, C. *Interpretable Machine Learning: A Guide for Making Black Box Models 
 
 ## Acknowledgments
 
-Course SCC5819 — Topics in Artificial Intelligence, ICMC-USP, taught by Prof. Dr. André Carlos Ponce de Leon Ferreira de Carvalho. The LIME module was written by William Bendinelli as the course's seminar material and originated in [wbendinelli/interpretable-ml-lectures](https://github.com/wbendinelli/interpretable-ml-lectures); the structure and terminology follow Christoph Molnar's *Interpretable Machine Learning*. Everyone who has contributed since is in the repository's [contributor graph](https://github.com/scc5819/interpretable-ml-lectures/graphs/contributors).
+Course SCC5819 — Topics in Artificial Intelligence, ICMC-USP, taught by Prof. Dr. André Carlos Ponce de Leon Ferreira de Carvalho; the structure and terminology follow Christoph Molnar's *Interpretable Machine Learning*. Module authorship is credited where it lives: each module README's byline, the presenter column of the [module board](#modules), the `authors` list in [`CITATION.cff`](CITATION.cff), and the [contributor graph](https://github.com/scc5819/interpretable-ml-lectures/graphs/contributors) for everything else.
 
 ## License
 

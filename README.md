@@ -81,8 +81,6 @@ The same commitments apply to every module, and they are what the repository is 
 
 **In Binder.** [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/scc5819/interpretable-ml-lectures/main) builds its image from this repository's `requirements.txt`, so unlike Colab it runs the *pinned* package stack (Binder's Python version may still differ from 3.14).
 
-**In a devcontainer.** [`.devcontainer/`](.devcontainer/devcontainer.json) builds on `python:3.14.6-slim` and installs the lockfile — the only route that guarantees the exact interpreter patch the committed outputs were produced on.
-
 **Locally** (the route the committed numbers were produced on):
 
 ```bash
